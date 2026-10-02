@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">ILLY</title>
+  <desc id="desc">Premium coffee emblem</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#152d4d"/>
+      <stop offset="1" stop-color="#6f83ff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="59" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="49" fill="none" stroke="#f7d49a" stroke-width="2"/>
+  <path d="M39 42h50v10H39zM48 52h12v31H48zM68 52h12v31H68zM40 83h48v8H40z" fill="#fff8e8"/>
+  <path d="M32 97c20 10 44 10 64 0" fill="none" stroke="#f7d49a" stroke-width="3" stroke-linecap="round"/>
+</svg>

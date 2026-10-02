@@ -1,0 +1,370 @@
+html[data-theme] .pos-cart-sidebar,
+html[data-theme] .cart-footer,
+html[data-theme] .shortcuts-section,
+html[data-theme] .product-card,
+html[data-theme] .shortcut-card,
+html[data-theme] .card,
+html[data-theme] .stat-card {
+  background: var(--surface);
+  color: var(--text-main);
+  border-color: var(--border);
+}
+html[data-theme] .discount-btn,
+html[data-theme] .payment-btn,
+html[data-theme] .cart-item-qty-box,
+html[data-theme] .category-tab {
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+html[data-theme] .discount-btn:hover,
+html[data-theme] .payment-btn:hover,
+html[data-theme] .category-tab:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+  border-color: var(--border-focus);
+}
+html[data-theme] .discount-btn.active,
+html[data-theme] .payment-btn.active,
+html[data-theme] .category-tab.active {
+  background: var(--accent);
+  color: var(--text-white);
+  border-color: var(--accent);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+html[data-theme] .cart-summary-row,
+html[data-theme] .cart-item-title,
+html[data-theme] .product-card-title,
+html[data-theme] .shortcut-card-name {
+  color: var(--text-main);
+}
+html[data-theme] .cart-item-subtitle,
+html[data-theme] .product-card-desc,
+html[data-theme] .cart-empty-state,
+html[data-theme] .shortcut-card-price {
+  color: var(--text-muted);
+}
+html[data-theme] #btn-confirm-order {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: var(--text-white);
+  border-color: var(--accent);
+}
+html[data-theme] .modal-box,
+html[data-theme] .data-table-container {
+  background: var(--surface-elevated);
+  color: var(--text-main);
+  border-color: var(--border);
+}
+html[data-theme] #view-admin .card,
+html[data-theme] #view-developer .card,
+html[data-theme] #view-admin .data-table-container,
+html[data-theme] #view-developer .data-table-container,
+html[data-theme] #view-admin .stat-card,
+html[data-theme] #view-developer .stat-card {
+  background: var(--surface-elevated) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-sm);
+}
+html[data-theme] #view-admin .admin-nav-tabs,
+html[data-theme] #view-developer .admin-nav-tabs,
+html[data-theme] #view-admin .stock-alert-toolbar,
+html[data-theme] #view-developer .stock-alert-toolbar,
+html[data-theme] #view-admin .recommendation-card,
+html[data-theme] #view-developer .recommendation-card,
+html[data-theme] #view-admin .recipe-help-panel,
+html[data-theme] #view-developer .recipe-help-panel,
+html[data-theme] #view-admin .employee-report-card,
+html[data-theme] #view-developer .employee-report-card {
+  background: var(--surface-soft) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme] #view-admin h1,
+html[data-theme] #view-admin h2,
+html[data-theme] #view-admin h3,
+html[data-theme] #view-admin h4,
+html[data-theme] #view-developer h1,
+html[data-theme] #view-developer h2,
+html[data-theme] #view-developer h3,
+html[data-theme] #view-developer h4,
+html[data-theme] #view-admin label,
+html[data-theme] #view-developer label,
+html[data-theme] #view-admin .data-table td,
+html[data-theme] #view-developer .data-table td {
+  color: var(--text-main);
+}
+html[data-theme] #view-admin .data-table th,
+html[data-theme] #view-developer .data-table th {
+  background: var(--surface-soft) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme] #view-admin .data-table td,
+html[data-theme] #view-developer .data-table td {
+  background: transparent !important;
+  border-color: var(--border-light) !important;
+}
+html[data-theme] #view-admin .data-table tr:hover td,
+html[data-theme] #view-developer .data-table tr:hover td {
+  background: var(--bg-card-hover) !important;
+}
+html[data-theme] #view-admin .text-secondary,
+html[data-theme] #view-developer .text-secondary,
+html[data-theme] #view-admin .text-muted,
+html[data-theme] #view-developer .text-muted,
+html[data-theme] #view-admin .eyebrow,
+html[data-theme] #view-developer .eyebrow {
+  color: var(--text-secondary) !important;
+}
+html[data-theme] #view-admin .form-field > span,
+html[data-theme] #view-developer .form-field > span,
+html[data-theme] #view-admin .form-field label,
+html[data-theme] #view-developer .form-field label {
+  color: var(--text-secondary) !important;
+}
+html[data-theme] #view-admin .recipe-row,
+html[data-theme] #view-developer .recipe-row,
+html[data-theme] #view-admin .catalog-variant-row,
+html[data-theme] #view-developer .catalog-variant-row {
+  background: var(--surface-soft) !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+html[data-theme] #view-admin .recipe-row strong,
+html[data-theme] #view-developer .recipe-row strong,
+html[data-theme] #view-admin .catalog-variant-row strong,
+html[data-theme] #view-developer .catalog-variant-row strong {
+  color: var(--text-main) !important;
+}
+html[data-theme] #view-admin .btn-outline,
+html[data-theme] #view-developer .btn-outline {
+  background: var(--surface) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+html[data-theme] .data-table th {
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+}
+html[data-theme] .data-table td {
+  color: var(--text-main);
+  border-color: var(--border-light);
+}
+
+/* Admin data panels keep one readable surface hierarchy across every theme. */
+html[data-theme] #admin-panel-stock,
+html[data-theme] #admin-panel-catalog,
+html[data-theme] #admin-panel-shifts,
+html[data-theme] #admin-panel-inventory,
+html[data-theme] #admin-panel-staff {
+  color: var(--text-main);
+}
+
+html[data-theme] #admin-panel-stock h2,
+html[data-theme] #admin-panel-catalog h2,
+html[data-theme] #admin-panel-shifts h2,
+html[data-theme] #admin-panel-inventory h2,
+html[data-theme] #admin-panel-staff h2,
+html[data-theme] #admin-panel-stock h3,
+html[data-theme] #admin-panel-catalog h3,
+html[data-theme] #admin-panel-shifts h3,
+html[data-theme] #admin-panel-inventory h3,
+html[data-theme] #admin-panel-staff h3 {
+  color: var(--text-main) !important;
+}
+
+html[data-theme] #admin-panel-stock .card,
+html[data-theme] #admin-panel-catalog .card,
+html[data-theme] #admin-panel-shifts .card,
+html[data-theme] #admin-panel-inventory .card,
+html[data-theme] #admin-panel-staff .card,
+html[data-theme] #admin-panel-stock .data-table-container,
+html[data-theme] #admin-panel-catalog .data-table-container,
+html[data-theme] #admin-panel-shifts .data-table-container,
+html[data-theme] #admin-panel-inventory .data-table-container,
+html[data-theme] #admin-panel-staff .data-table-container {
+  background: var(--surface-elevated) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border) !important;
+}
+
+html[data-theme] #admin-panel-stock .data-table,
+html[data-theme] #admin-panel-catalog .data-table,
+html[data-theme] #admin-panel-shifts .data-table,
+html[data-theme] #admin-panel-inventory .data-table,
+html[data-theme] #admin-panel-staff .data-table {
+  color: var(--text-main);
+}
+
+html[data-theme] #admin-panel-stock .data-table th,
+html[data-theme] #admin-panel-catalog .data-table th,
+html[data-theme] #admin-panel-shifts .data-table th,
+html[data-theme] #admin-panel-inventory .data-table th,
+html[data-theme] #admin-panel-staff .data-table th {
+  background: var(--surface-soft) !important;
+  color: var(--text-main) !important;
+  border-bottom: 1px solid var(--border) !important;
+  text-shadow: none;
+}
+
+html[data-theme] #admin-panel-stock .data-table td,
+html[data-theme] #admin-panel-catalog .data-table td,
+html[data-theme] #admin-panel-shifts .data-table td,
+html[data-theme] #admin-panel-inventory .data-table td,
+html[data-theme] #admin-panel-staff .data-table td {
+  color: var(--text-main) !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+html[data-theme] #admin-panel-stock .data-table tr:hover td,
+html[data-theme] #admin-panel-catalog .data-table tr:hover td,
+html[data-theme] #admin-panel-shifts .data-table tr:hover td,
+html[data-theme] #admin-panel-inventory .data-table tr:hover td,
+html[data-theme] #admin-panel-staff .data-table tr:hover td {
+  background: var(--bg-card-hover) !important;
+}
+
+html[data-theme] #admin-panel-stock .input-field,
+html[data-theme] #admin-panel-catalog .input-field,
+html[data-theme] #admin-panel-shifts .input-field,
+html[data-theme] #admin-panel-inventory .input-field,
+html[data-theme] #admin-panel-staff .input-field {
+  background: var(--surface) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme] #admin-panel-stock .input-field::placeholder,
+html[data-theme] #admin-panel-catalog .input-field::placeholder,
+html[data-theme] #admin-panel-shifts .input-field::placeholder,
+html[data-theme] #admin-panel-inventory .input-field::placeholder,
+html[data-theme] #admin-panel-staff .input-field::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1;
+}
+
+html[data-theme] #admin-panel-stock label,
+html[data-theme] #admin-panel-catalog label,
+html[data-theme] #admin-panel-shifts label,
+html[data-theme] #admin-panel-inventory label,
+html[data-theme] #admin-panel-staff label,
+html[data-theme] #admin-panel-stock .text-secondary,
+html[data-theme] #admin-panel-catalog .text-secondary,
+html[data-theme] #admin-panel-shifts .text-secondary,
+html[data-theme] #admin-panel-inventory .text-secondary,
+html[data-theme] #admin-panel-staff .text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme] #admin-panel-stock .stock-alert-toolbar,
+html[data-theme] #admin-panel-stock .stock-alert-summary {
+  background: var(--surface-soft) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme] #admin-panel-stock .stock-alert-caption,
+html[data-theme] #admin-panel-stock .eyebrow {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme] #admin-panel-stock .btn-outline,
+html[data-theme] #admin-panel-catalog .btn-outline,
+html[data-theme] #admin-panel-shifts .btn-outline,
+html[data-theme] #admin-panel-inventory .btn-outline,
+html[data-theme] #admin-panel-staff .btn-outline {
+  background: var(--surface) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme] #admin-panel-stock .btn-outline:hover,
+html[data-theme] #admin-panel-catalog .btn-outline:hover,
+html[data-theme] #admin-panel-shifts .btn-outline:hover,
+html[data-theme] #admin-panel-inventory .btn-outline:hover,
+html[data-theme] #admin-panel-staff .btn-outline:hover {
+  background: var(--bg-card-hover) !important;
+  border-color: var(--border-focus) !important;
+}
+
+html[data-theme] #admin-panel-stock .badge,
+html[data-theme] #admin-panel-catalog .badge,
+html[data-theme] #admin-panel-shifts .badge,
+html[data-theme] #admin-panel-inventory .badge,
+html[data-theme] #admin-panel-staff .badge {
+  text-shadow: none;
+}
+
+html[data-theme] #admin-panel-stock .data-table-container,
+html[data-theme] #admin-panel-catalog .data-table-container,
+html[data-theme] #admin-panel-shifts .data-table-container,
+html[data-theme] #admin-panel-inventory .data-table-container,
+html[data-theme] #admin-panel-staff .data-table-container {
+  overflow-x: auto;
+  scrollbar-color: var(--border) var(--surface-soft);
+}
+
+html[data-theme] .cart-logo {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 4px;
+}
+
+html[data-theme] .cart-empty-logo {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 12px;
+  object-fit: contain;
+  opacity: .2;
+  filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--accent) 28%, transparent));
+}
+
+html[data-theme] .cart-header > div:last-child {
+  display: flex;
+  flex: 1 1 250px;
+  min-width: 0;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+html[data-theme] .cart-header > div:last-child .btn {
+  min-width: max-content;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 961px) {
+  body {
+    overflow-y: auto;
+  }
+
+  #view-barista:not(:fullscreen) {
+    overflow: visible;
+    height: auto;
+    min-height: calc(100vh - 68px);
+  }
+
+  #view-barista:not(:fullscreen) .pos-layout {
+    height: auto;
+    min-height: calc(100vh - 68px);
+    overflow: visible;
+  }
+
+  #view-barista:not(:fullscreen) .pos-catalog-area {
+    overflow: visible;
+    min-height: calc(100vh - 68px);
+  }
+
+  #view-barista:not(:fullscreen) .pos-cart-sidebar {
+    height: auto;
+    min-height: calc(100vh - 68px);
+  }
+}

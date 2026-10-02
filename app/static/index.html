@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Illy Specialty Coffee - Nəzarət və İdarəetmə Sistemi</title>
+  <link rel="manifest" href="/static/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/static/images/illy-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css?v=20260917-eod-reconcile-1" />
+  <link rel="stylesheet" href="css/themes/theme-shared.css?v=20260915-theme-files-10" />
+  <link rel="stylesheet" href="css/themes/soft-dark.css?v=20260915-theme-files-6" />
+  <link rel="stylesheet" href="css/themes/deep-dark.css?v=20260915-theme-files-6" />
+  <link rel="stylesheet" href="css/themes/midnight-glass.css?v=20260915-theme-files-6" />
+  <link rel="stylesheet" href="css/themes/warm-cream.css?v=20260915-ice-cream-contrast-1" />
+  <link rel="stylesheet" href="css/themes/warm-green.css?v=20260915-theme-files-7" />
+  <link rel="stylesheet" href="css/themes/cool-graphite.css?v=20260915-theme-files-6" />
+  <link rel="stylesheet" href="css/themes/light.css?v=20260915-theme-files-6" />
+</head>
+<body>
+  <main id="app-shell" aria-live="polite"></main>
+  <script>
+    (async function loadApplicationShell() {
+      const root = document.getElementById("app-shell");
+      try {
+        const partials = await Promise.all(["chrome.html", "views.html"].map(async (partial) => {
+          const response = await fetch(`/static/partials/${partial}`, { cache: "no-cache" });
+          if (!response.ok) throw new Error(`Partial could not be loaded: ${partial}`);
+          return response.text();
+        }));
+        root.innerHTML = partials.join("\n");
+        const scripts = [
+          "/static/js/i18n.js?v=20260917-cash-eod-1",
+          "/static/js/app.js?v=20260917-confirm-modal-1",
+          "/static/js/barista.js?v=20260917-cash-debt-3",
+          "/static/js/admin.js?v=20260917-eod-reconcile-1",
+          "/static/js/developer.js?v=20260915-inventory-staff-i18n-1"
+        ];
+        for (const source of scripts) {
+          await new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = source;
+            script.onload = resolve;
+            script.onerror = () => reject(new Error(`Script failed: ${source}`));
+            document.body.appendChild(script);
+          });
+        }
+        document.dispatchEvent(new Event("DOMContentLoaded"));
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("/static/service-worker.js").catch(() => {});
+        }
+      } catch (error) {
+        root.innerHTML = "<section style=\"padding:2rem;text-align:center\"><h1>Illy Specialty Coffee</h1><p>İnterfeys yüklənmədi. Səhifəni yeniləyin.</p></section>";
+        console.error(error);
+      }
+    })();
+  </script>
+</body>
+</html>

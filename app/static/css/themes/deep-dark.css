@@ -1,0 +1,6 @@
+html[data-theme="deep-dark"] {
+  --bg-main:#05070c; --surface:#0d121c; --surface-elevated:#172235; --surface-soft:#09101a;
+  --bg-card:#0d121c; --bg-card-hover:#151e2d; --border:#243247; --border-light:#1a293d; --border-focus:#22d3ee;
+  --text-main:#f1f5f9; --text-secondary:#b7c6d9; --text-muted:#8091aa; --text-white:#fff;
+  --primary:#06b6d4; --accent:#67e8f9; --accent-hover:#a5f3fc;
+}

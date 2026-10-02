@@ -1,0 +1,6 @@
+html[data-theme="soft-dark"] {
+  --bg-main:#111827; --surface:#1f2937; --surface-elevated:#2b394d; --surface-soft:#182335;
+  --bg-card:#1f2937; --bg-card-hover:#293548; --border:#3b4a60; --border-light:#304057; --border-focus:#8b5cf6;
+  --text-main:#f8fafc; --text-secondary:#cbd5e1; --text-muted:#9aaac0; --text-white:#fff;
+  --primary:#8b5cf6; --accent:#c084fc; --accent-hover:#d8b4fe;
+}

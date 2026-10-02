@@ -1,0 +1,207 @@
+<!-- Top Navigation Header -->
+    <a class="skip-link" href="#app-container">Əsas məzmuna keç</a>
+    <header class="app-header" id="main-header" style="display: none">
+      <div class="brand-box">
+        <img class="brand-logo-image" id="header-logo-image" src="/static/images/illy-logo.svg" alt="ILLY logo" />
+        <span class="brand-logo-badge" id="header-logo-text">ILLY</span>
+        <div>
+          <div class="brand-title" id="header-shop-name">
+            Illy Specialty Coffee
+          </div>
+          <div class="brand-tagline">Daxili Nəzarət və Anbar İdarəetməsi</div>
+        </div>
+      </div>
+
+      <!-- Center Navigation Tabs for Authorized Roles -->
+      <nav class="header-nav-buttons" id="header-nav-buttons" aria-label="Əsas bölmələr">
+        <button
+          class="btn btn-outline btn-sm"
+          id="btn-nav-pos"
+          onclick="navigateTo('barista')"
+          data-az-tooltip="Kassa və toxunma sifariş ekranına keçid"
+        >
+          <span data-i18n="nav.pos">☕ Kassa / Sifariş</span>
+        </button>
+        <button
+          class="btn btn-outline btn-sm"
+          id="btn-nav-admin"
+          onclick="navigateTo('admin')"
+          data-az-tooltip="Bu bölmə satış, hesabatlar və anbar idarəetməsini açır"
+        >
+          <span data-i18n="nav.admin">📊 Biznes İdarəetmə</span>
+        </button>
+        <button
+          class="btn btn-outline btn-sm"
+          id="btn-nav-developer"
+          onclick="navigateTo('developer')"
+          data-az-tooltip="Bu panel lisenziya, ixrac və texniki sistem tənzimləmələrini ehtiva edir"
+        >
+          <span data-i18n="nav.developer">🛠️ Developer Paneli</span>
+        </button>
+      </nav>
+
+      <!-- User Profile and Logout -->
+      <div class="header-actions">
+        <button class="btn btn-outline btn-sm" id="notification-bell" onclick="toggleAlertPanel()" title="Kritik bildirişlər" aria-label="Kritik bildirişlər">
+          🔔 <span id="notification-badge" style="display:none">0</span>
+        </button>
+        <div
+          style="font-size: 13px; color: var(--text-secondary)"
+          id="inactivity-timer"
+          data-az-tooltip="30 dəqiqə hərəkətsizlikdən sonra sistem avtomatik kilidlənir"
+        >
+          ⏱️ 30:00
+        </div>
+        <div id="alert-panel" class="alert-panel" hidden>
+          <div class="alert-panel-header"><strong data-i18n="alerts.title">Bildirişlər</strong><button type="button" class="btn btn-outline btn-sm" onclick="toggleAlertPanel()">×</button></div>
+          <div id="alert-panel-list" class="alert-panel-list"></div>
+        </div>
+        <button
+          class="user-badge-header"
+          id="header-user-info"
+          type="button"
+          onclick="openProfileSettingsModal()"
+          data-az-tooltip="Profil şəklini və şifrəni dəyişmək üçün klikləyin"
+        >
+          <img
+            src="/static/images/avatar-user.svg"
+            class="user-avatar-sm"
+            id="header-user-avatar"
+            alt="Avatar"
+          />
+          <div>
+            <div
+              style="font-size: 14px; font-weight: 700; color: var(--text-main)"
+              id="header-user-name"
+            >
+              İstifadəçi
+            </div>
+            <span class="badge badge-barista" id="header-user-role"
+              >BARISTA</span
+            >
+          </div>
+        </button>
+        <button
+          class="btn btn-outline btn-sm"
+          onclick="logout()"
+          data-az-tooltip="Cari sessiyanı dərhal kilidləyir və giriş ekranına qayıdır"
+        >
+          <span data-i18n="nav.lock">🔒 Kilidlə</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+    <div class="modal-overlay" id="modal-quick-form" style="display:none">
+      <div class="modal-box user-form-modal" id="quick-form-box" role="dialog" aria-modal="true">
+        <h2 class="modal-title" id="quick-form-title"></h2>
+        <p class="modal-subtitle" id="quick-form-subtitle"></p>
+        <form id="quick-form" onsubmit="submitQuickForm(event)"><div id="quick-form-fields" class="form-grid"></div><div class="modal-actions"><button type="button" class="btn btn-outline" onclick="closeQuickForm(null)" data-i18n="common.cancel">İmtina</button><button type="submit" class="btn btn-primary" data-i18n="common.continue">Davam et</button></div></form>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modal-section-info" style="display:none" onclick="if(event.target===this) closeSectionInfo()">
+      <div class="modal-box section-info-modal" role="dialog" aria-modal="true" aria-labelledby="section-info-title">
+        <div class="section-info-header">
+          <div>
+            <div class="modal-kicker" data-i18n="sectionInfo.kicker">BÖLMƏ MƏLUMATI</div>
+            <h2 class="modal-title" id="section-info-title"></h2>
+          </div>
+          <button type="button" class="btn btn-outline section-info-close" onclick="closeSectionInfo()" data-i18n="common.close">Bağla</button>
+        </div>
+        <p class="modal-subtitle" id="section-info-description"></p>
+        <div class="section-info-steps" id="section-info-steps"></div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modal-employee-report" style="display:none" onclick="if(event.target===this) closeEmployeeReport()">
+      <div class="modal-box employee-report-modal" role="dialog" aria-modal="true" aria-labelledby="employee-report-title">
+        <div class="employee-report-header">
+          <div>
+            <div class="modal-kicker" data-i18n="reports.employee">HESABAT</div>
+            <h2 class="modal-title" id="employee-report-title"></h2>
+            <p class="modal-subtitle" id="employee-report-period"></p>
+          </div>
+          <button type="button" class="btn btn-outline" onclick="closeEmployeeReport()" data-i18n="common.close">Bağla</button>
+        </div>
+        <div class="employee-report-kpis" id="employee-report-summary"></div>
+        <div class="employee-report-grid">
+          <section class="employee-report-card"><h3 data-i18n="reports.employeePerformance">Gündəlik performans</h3><div class="employee-chart" id="employee-report-chart"></div><div class="employee-day-detail" id="employee-report-day-detail"></div></section>
+          <section class="employee-report-card"><h3 data-i18n="reports.employeeProfile">Profil</h3><div id="employee-report-profile"></div><div id="employee-report-operations"></div></section>
+        </div>
+        <section class="employee-report-card"><h3 data-i18n="reports.employeeOrders">Son sifarişlər</h3><div class="data-table-container"><table class="data-table"><tbody id="employee-report-orders"></tbody></table></div></section>
+        <section class="employee-report-card"><h3 data-i18n="reports.employeeAudit">Audit qeydləri</h3><div class="data-table-container"><table class="data-table"><tbody id="employee-report-audits"></tbody></table></div></section>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modal-confirm-action" style="display:none">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="confirm-action-title">
+        <h2 class="modal-title" id="confirm-action-title" data-i18n="common.confirmTitle">Təsdiq tələb olunur</h2>
+        <p class="modal-subtitle" id="confirm-action-message"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="confirm-action-cancel" data-i18n="common.cancel">İmtina</button>
+          <button type="button" class="btn btn-danger" id="confirm-action-accept" data-i18n="common.confirm">Təsdiq edirəm</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modal-cash-movement" style="display:none" onclick="if(event.target===this) closeCashMovementModal()">
+      <div class="modal-box" role="dialog" aria-modal="true">
+        <h2 class="modal-title" data-i18n="pos.cashMovement">Kassa hərəkəti</h2>
+        <form onsubmit="submitCashMovement(event)">
+          <label class="form-field"><span data-i18n="pos.cashType">Növ</span><select class="input-field" id="cash-movement-type"><option value="in" data-i18n="pos.cashIn">Kassa girişi</option><option value="out" data-i18n="pos.cashOut">Kassa çıxışı</option></select></label>
+          <label class="form-field"><span data-i18n="pos.cashAmount">Məbləğ</span><input class="input-field" id="cash-movement-amount" type="number" min="0.01" step="0.01" required></label>
+          <label class="form-field"><span data-i18n="pos.cashReason">Səbəb</span><input class="input-field" id="cash-movement-reason" required maxlength="200"></label>
+          <label class="form-field"><span data-i18n="pos.cashNote">Qeyd</span><textarea class="input-field" id="cash-movement-note" maxlength="500"></textarea></label>
+          <label id="cash-debt-label"><input type="checkbox" id="cash-movement-debt"> <span data-i18n="pos.cashDebt">Borc alındı</span></label>
+          <label id="cash-debt-payment-label"><input type="checkbox" id="cash-movement-debt-payment"> <span data-i18n="pos.cashDebtPayment">Borc ödənildi</span></label>
+          <div class="modal-actions"><button type="button" class="btn btn-outline" onclick="closeCashMovementModal()" data-i18n="common.cancel">İmtina</button><button class="btn btn-primary" type="submit" data-i18n="common.save">Yadda saxla</button></div>
+        </form>
+      </div>
+    </div>
+
+    <section class="setup-wizard" id="setup-wizard" style="display:none" aria-label="İlk quraşdırma">
+      <div class="setup-window" role="dialog" aria-modal="true">
+        <div class="modal-kicker">ILLY / İLK QURAŞDIRMA</div>
+        <h1>Qəhvə mağazanızı hazırlayaq</h1>
+        <p class="text-secondary">Bir neçə təhlükəsiz addımda sistemi işə salın.</p>
+        <div class="setup-steps">
+          <div class="setup-step active" data-step="1">Lisenziya</div>
+          <div class="setup-step" data-step="2">İstifadəçilər</div>
+          <div class="setup-step" data-step="3">Mağaza</div>
+          <div class="setup-step" data-step="4">Logo</div>
+          <div class="setup-step" data-step="5">Yekun</div>
+        </div>
+        <div class="setup-panel active" data-step="1">
+          <h2>Lisenziya açarı</h2><p>Quraşdırmaya davam etmək üçün etibarlı açar tələb olunur. Demo rejimində test üçün <strong>DEMO-SETUP</strong> istifadə edin.</p>
+          <label class="form-field"><span>Lisenziya açarı</span><input class="input-field" id="setup-license-key" required placeholder="ILLY-REAL-... və ya DEMO-SETUP" data-az-tooltip="Demo testləri üçün DEMO-SETUP daxil edin"></label>
+        </div>
+        <div class="setup-panel" data-step="2">
+          <h2>İstifadəçiləri əlavə edin</h2><p>İstədiyiniz qədər admin və barista hesabı yarada bilərsiniz. Ən azı bir hesab tələb olunur.</p>
+          <form id="setup-user-form" class="setup-user-form" onsubmit="event.preventDefault();addSetupUser()">
+            <label class="form-field"><span>Ad və soyad</span><input class="input-field" name="full_name" required></label>
+            <label class="form-field"><span>İstifadəçi adı</span><input class="input-field" name="username" required></label>
+            <label class="form-field"><span>E-poçt <small>(istəyə görə)</small></span><input class="input-field" type="email" name="email"></label>
+            <label class="form-field"><span>Rol</span><select class="input-field" name="role"><option value="admin">Admin</option><option value="barista">Barista / İşçi</option></select></label>
+            <label class="form-field"><span>Şifrə</span><input class="input-field" type="password" name="password" minlength="8" required></label>
+            <label class="form-field"><span>Avatar</span><select class="input-field" name="avatar_url"><option value="/static/images/avatar-user.svg">Premium avatar</option></select></label>
+            <button class="btn btn-outline form-field-wide" type="submit">+ İstifadəçi siyahısına əlavə et</button>
+          </form>
+          <div class="setup-users-list" id="setup-users-list"></div>
+        </div>
+        <div class="setup-panel" data-step="3">
+          <h2>Mağaza məlumatları</h2><p>Bu məlumatlar başlıqda və daxili hesabatlarda görünəcək. Tagline istəyə bağlıdır.</p>
+          <label class="form-field"><span>Mağaza adı</span><input class="input-field" id="setup-shop-name" required placeholder="Illy Specialty Coffee"></label>
+          <label class="form-field" style="margin-top:16px"><span>Qısa təsvir <small>(istəyə görə)</small></span><input class="input-field" id="setup-shop-tagline" placeholder="Daxili Nəzarət və Anbar İdarəetməsi"></label>
+        </div>
+        <div class="setup-panel" data-step="4">
+          <h2>Logo seçimi</h2><p>Hazır logolardan birini seçin və ya öz şəkilinizi yükləyin. Seçim edilməzsə standart logo saxlanılır.</p>
+          <label class="form-field"><span>Hazır logo</span><select class="input-field" id="setup-logo-choice" onchange="selectSetupLogo(this.value)"><option value="/static/images/illy-logo.svg">Standart Illy SVG</option></select></label>
+          <label class="form-field" style="margin-top:16px"><span>Öz SVG logonuzu yükləyin <small>(istəyə görə)</small></span><input class="input-field" id="setup-logo-file" type="file" accept="image/svg+xml,.svg" onchange="uploadSetupLogo(event)"></label>
+          <img id="setup-logo-preview" class="setup-logo-preview" src="/static/images/illy-logo.svg" alt="Logo önizləmə">
+        </div>
+        <div class="setup-panel" data-step="5">
+          <h2>Hər şey hazırdır</h2><p>Parametrləri yoxlayın və quraşdırmanı tamamlayın. Tamamlandıqdan sonra bu wizard normal rejimdə kilidlənəcək.</p>
+          <div class="card"><strong>Qoruma aktivdir</strong><p class="text-secondary">Demo rejimində test üçün yenidən açıla bilər; production rejimində yalnız ilkin quraşdırma zamanı əlçatandır.</p></div>
+        </div>
+        <div class="setup-error" id="setup-error" role="alert"></div>
+        <div class="setup-footer"><button class="btn btn-outline" id="setup-back" type="button" onclick="setupBack()">Geri</button><button class="btn btn-primary" id="setup-next" type="button" onclick="setupNext()">Növbəti</button></div>
+      </div>
+    </section>

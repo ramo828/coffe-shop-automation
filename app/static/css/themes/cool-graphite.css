@@ -1,0 +1,6 @@
+html[data-theme="cool-graphite"] {
+  --bg-main:#171a20; --surface:#242a33; --surface-elevated:#303a47; --surface-soft:#1d232c;
+  --bg-card:#242a33; --bg-card-hover:#303a47; --border:#3c4a5a; --border-light:#334150; --border-focus:#38bdf8;
+  --text-main:#f8fafc; --text-secondary:#c5d1df; --text-muted:#95a5b7; --text-white:#fff;
+  --primary:#0ea5e9; --accent:#67e8f9; --accent-hover:#a5f3fc;
+}

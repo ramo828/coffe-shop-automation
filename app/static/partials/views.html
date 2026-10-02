@@ -1,0 +1,2297 @@
+<!-- Main Dynamic View Container -->
+    <main id="app-container">
+      <!-- ============================================== -->
+      <!-- VIEW 1: GNOME USER PICKER LOGIN SCREEN (Rule D) -->
+      <!-- ============================================== -->
+      <section class="login-screen" id="view-login">
+        <div class="login-hero">
+          <img class="brand-logo-image login-logo-image" id="login-logo-image" src="/static/images/illy-logo.svg" alt="ILLY logo" />
+          <span class="brand-logo-badge" id="login-logo-text">ILLY</span>
+          <h1 data-i18n="login.welcome">Xoş Gəlmisiniz</h1>
+          <p data-i18n="login.chooseProfile">İşə başlamaq üçün profilinizi seçin</p>
+        </div>
+
+        <!-- User Profile Cards Container -->
+        <div class="profile-picker-grid" id="profile-picker-grid">
+          <!-- Dynamically populated via get_visible_profiles_service() -->
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 2: BARISTA FAST ORDERING TOUCH POS (Rule F) -->
+      <!-- ============================================== -->
+      <section class="pos-layout" id="view-barista" style="display: none">
+        <!-- Catalog & Shortcuts Area -->
+        <div class="pos-catalog-area">
+          <!-- Pinned Shortcuts Section (Rule F1) -->
+          <div
+            class="shortcuts-section"
+            data-az-tooltip="Bu bölmə tez satış üçün seçilmiş içkiləri göstərir"
+          >
+            <div class="section-header">
+              <div class="section-title" data-i18n="pos.shortcuts">⭐ Tez Satış Qısayolları</div>
+              <button
+                class="btn btn-outline btn-sm"
+                onclick="openShortcutsConfigModal()"
+                data-az-tooltip="Sürətli satış düymələrini tənzimləyin"
+              >
+                <span data-i18n="common.configure">⚙️ Tənzimlə</span>
+              </button>
+              <button
+                class="btn btn-outline btn-sm"
+                id="pos-fullscreen-btn"
+                onclick="togglePOSFullscreen()"
+                title="Kassanı tam ekran aç"
+              >
+                <span data-i18n="common.fullscreen">⛶ Tam ekran</span>
+              </button>
+            </div>
+            <div class="shortcuts-grid" id="barista-shortcuts-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Category Tabs -->
+          <div class="category-tabs" id="pos-category-tabs">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Dynamic Product Grid (Adaptive size, Rule F1) -->
+          <div class="product-grid" id="pos-product-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Right Cart Sidebar (Rule F2-F5) -->
+        <aside
+          class="pos-cart-sidebar"
+          data-az-tooltip="Seçilmiş məhsullar, endirimlər və yekun ödəniş hesabatı"
+        >
+          <div class="cart-header">
+            <div class="cart-title">
+              <img class="cart-logo" src="/static/images/illy-logo.svg" alt="ILLY" />
+              <span data-i18n="pos.cart.title">Səbət</span> (<span id="cart-item-count">0</span>)
+            </div>
+            <div style="display: flex; gap: 6px">
+              <button
+                class="btn btn-outline btn-sm"
+                onclick="openRecentOrdersModal()"
+                data-az-tooltip="Bu gün qeydə alınmış son sifarişlərin siyahısı və ləğv etmə"
+              >
+                <span data-i18n="pos.recentOrders">📜 Son Sifarişlər</span>
+              </button>
+              <button
+                class="btn btn-outline btn-sm"
+                onclick="clearCart()"
+                data-az-tooltip="Səbətdəki bütün məhsulları təmizləyir"
+              >
+                <span data-i18n="common.clear">Təmizlə</span>
+              </button>
+              <button
+                class="btn btn-outline btn-sm cart-settings-btn"
+                onclick="openProfileSettingsModal()"
+                title="Barista ayarları"
+                aria-label="Barista ayarları"
+              >
+                ⚙
+              </button>
+            </div>
+          </div>
+
+          <!-- Cart Items List -->
+          <div class="cart-items-list" id="cart-items-list">
+            <div class="cart-empty-state">
+              <img class="cart-empty-logo" src="/static/images/icons/illy-wide-cup-10x.svg" alt="Coffee" />
+              <div data-i18n="pos.cart.empty">Səbət boşdur</div>
+              <div style="font-size: 12px; margin-top: 4px">
+                <span data-i18n="pos.cart.emptyHint">Məhsulların üzərinə toxunaraq əlavə edin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cart Footer with Discounts, Payments and Confirm -->
+          <div class="cart-footer">
+            <!-- Discounts / Complementary selector (Rule F5) -->
+            <div>
+              <div
+                style="
+                  font-size: 12px;
+                  color: var(--text-muted);
+                  margin-bottom: 6px;
+                "
+              >
+                <span data-i18n="pos.discount.label">Endirim / Xüsusi status:</span>
+              </div>
+              <div class="discount-box">
+                <button
+                  class="discount-btn active"
+                  id="disc-btn-none"
+                  onclick="setCartDiscount('none')"
+                >
+                  <span data-i18n="pos.discount.none">Yoxdur</span>
+                </button>
+                <button
+                  class="discount-btn"
+                  id="disc-btn-10"
+                  onclick="setCartDiscount('percent', 10)"
+                >
+                  10%
+                </button>
+                <button
+                  class="discount-btn"
+                  id="disc-btn-20"
+                  onclick="setCartDiscount('percent', 20)"
+                >
+                  20%
+                </button>
+                <button
+                  class="discount-btn"
+                  id="disc-btn-fixed"
+                  onclick="setCartDiscount('fixed', 2.0)"
+                >
+                  -2 AZN
+                </button>
+                <button
+                  class="discount-btn"
+                  id="disc-btn-comp"
+                  onclick="setCartDiscount('complementary', 0)"
+                >
+                  <span data-i18n="pos.discount.complementary">Qonaq/İşçi</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">
+                <span data-i18n="pos.fulfillment.label">Çatdırılma kanalı:</span>
+              </div>
+              <div class="payment-methods-grid">
+                <button type="button" class="payment-btn active" data-fulfillment-type="in_store" onclick="setCartFulfillment('in_store')"><span data-i18n="pos.fulfillment.inStore">Mağaza içi</span></button>
+                <button type="button" class="payment-btn" data-fulfillment-type="bolt" onclick="setCartFulfillment('bolt')">Bolt</button>
+                <button type="button" class="payment-btn" data-fulfillment-type="wolt" onclick="setCartFulfillment('wolt')">Wolt</button>
+                <button type="button" class="payment-btn" data-fulfillment-type="other_delivery" onclick="setCartFulfillment('other_delivery')" data-i18n="pos.fulfillment.other">Digər</button>
+              </div>
+            </div>
+
+            <!-- Internal Payment Type (Rule F4) -->
+            <div>
+              <div
+                style="
+                  font-size: 12px;
+                  color: var(--text-muted);
+                  margin-bottom: 6px;
+                "
+              >
+                <span data-i18n="pos.payment.label">Ödəniş üsulu:</span>
+              </div>
+              <div class="payment-methods-grid">
+                <button
+                  class="payment-btn active"
+                  id="pay-btn-cash"
+                  onclick="setCartPayment('cash')"
+                >
+                  <span data-i18n="pos.payment.cash">💵 Nağd</span>
+                </button>
+                <button
+                  class="payment-btn"
+                  id="pay-btn-card"
+                  onclick="setCartPayment('card')"
+                >
+                  <span data-i18n="pos.payment.card">💳 Kart</span>
+                </button>
+                <button
+                  class="payment-btn"
+                  id="pay-btn-mixed"
+                  onclick="setCartPayment('mixed')"
+                >
+                  <span data-i18n="pos.payment.mixed">🔄 Qarışıq</span>
+                </button>
+                <button
+                  class="payment-btn"
+                  id="pay-btn-other"
+                  onclick="setCartPayment('other')"
+                >
+                  <span data-i18n="pos.payment.other">✨ Digər</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Totals Summary -->
+            <div class="cart-summary-row">
+              <span data-i18n="pos.totals.subtotal">İlkin Məbləğ:</span>
+              <span id="cart-subtotal-text">0.00 AZN</span>
+            </div>
+            <div
+              class="cart-summary-row"
+              id="cart-discount-row"
+              style="display: none"
+            >
+              <span data-i18n="pos.totals.discount">Endirim:</span>
+              <span id="cart-discount-text" style="color: var(--accent)"
+                >-0.00 AZN</span
+              >
+            </div>
+            <div class="cart-summary-row total">
+              <span data-i18n="pos.totals.total">Yekun:</span>
+              <span id="cart-total-text" style="color: var(--accent)"
+                >0.00 AZN</span
+              >
+            </div>
+
+            <!-- Confirm Action Button -->
+            <button
+              class="btn btn-primary btn-lg"
+              id="btn-confirm-order"
+              onclick="confirmOrder()"
+              style="width: 100%"
+              data-az-tooltip="Bu düymə sifarişi təsdiqləyir"
+            >
+              <span data-i18n="pos.confirmOrder">✓ Sifarişi Təsdiqlə</span>
+            </button>
+            <button type="button" class="btn btn-outline" onclick="openCashMovementModal()" data-i18n="pos.cashMovement">Kassa hərəkəti</button>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 3: ADMIN MANAGEMENT PORTAL (Section I1)   -->
+      <!-- ============================================== -->
+      <section class="admin-layout" id="view-admin" style="display: none">
+        <div class="admin-nav-tabs">
+          <button
+            class="admin-nav-tab active"
+            id="tab-admin-overview"
+            onclick="switchAdminTab('overview')"
+            data-az-tooltip="Ümumi dövriyyə, qəbz sayı və satış qrafikləri"
+          >
+            <span data-i18n="admin.tabs.reports">📈 Satış Hesabatları</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-stock"
+            onclick="switchAdminTab('stock')"
+            data-az-tooltip="Bu bölmə anbar qalıqlarını idarə edir"
+          >
+            <span data-i18n="admin.tabs.stock">📦 Anbar və Xammal</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-catalog"
+            onclick="switchAdminTab('catalog')"
+            data-az-tooltip="Məhsul variantları, qiymətlər və resept tərkibləri"
+          >
+            <span data-i18n="admin.tabs.catalog">☕ Məhsullar və Reseptlər</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-shifts"
+            onclick="switchAdminTab('shifts')"
+            data-az-tooltip="Növbə açılışı, kassa bağlanışı və pul qalıqları"
+          >
+            <span data-i18n="admin.tabs.shifts">⏱️ Növbələr</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-inventory"
+            onclick="switchAdminTab('inventory')"
+            data-az-tooltip="Fiziki sayım və anbar kənarlaşmalarının auditi"
+          >
+            <span data-i18n="admin.tabs.inventory">📋 İnventarizasiya (Sayım)</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-staff"
+            onclick="switchAdminTab('staff')"
+            data-az-tooltip="Barista hesablarının yaradılması və idarəsi"
+          >
+            <span data-i18n="admin.tabs.staff">👥 İşçi Heyəti</span>
+          </button>
+          <button
+            class="admin-nav-tab"
+            id="tab-admin-retention"
+            onclick="switchAdminTab('retention')"
+            data-az-tooltip="Məlumatların saxlanma müddəti və arxivləşdirmə"
+          >
+            <span data-i18n="admin.tabs.retention">🧹 Saxlama Siyasəti</span>
+          </button>
+        </div>
+
+        <!-- Admin Tab 1: Overview & Reports -->
+        <div id="admin-panel-overview">
+          <!-- ML Recommendations Box (Section I3) -->
+          <div class="card" style="border-color: rgba(212, 163, 115, 0.4)">
+            <div class="section-title" style="margin-bottom: 12px">
+              <span data-i18n="admin.ml.title">🧠 Süni İntellekt / ML Əməliyyat Tövsiyələri</span>
+              <button type="button" class="section-info-btn" data-section-info="reports" data-i18n-title="sectionInfo.open" title="Bölmə haqqında məlumat" aria-label="Bölmə haqqında məlumat">i</button>
+            </div>
+            <div id="ml-recommendations-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Executive KPI Stats -->
+          <div class="stats-grid" id="admin-kpi-stats">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="dashboard-insight-grid">
+            <!-- Top Products -->
+            <div class="card">
+              <h3 style="margin-bottom: 16px">
+                <span data-i18n="admin.topProducts">🏆 Ən Çox Satılan Lider Məhsullar</span>
+              </h3>
+              <div id="admin-top-products-list"></div>
+            </div>
+            <!-- Barista Performance -->
+            <div class="card">
+              <h3 style="margin-bottom: 16px" data-i18n="admin.baristaResults">☕ Barista Satış Nəticələri</h3>
+              <div id="admin-barista-performance-list"></div>
+            </div>
+          </div>
+          <div class="card dashboard-chart-card sales-report-card">
+            <div class="section-header sales-report-header">
+              <div>
+                <div class="eyebrow" data-i18n="admin.salesRhythm">Satış ritmi</div>
+                <h3 data-i18n="admin.dailyPerformance">Gündəlik performans</h3>
+              </div>
+              <div class="sales-report-actions">
+                <div class="segmented-control" role="group" data-i18n-aria-label="reports.period">
+                  <button type="button" class="segment-btn active" aria-pressed="true" data-report-period="daily" data-i18n="period.daily">Günlük</button>
+                  <button type="button" class="segment-btn" data-report-period="weekly" data-i18n="period.weekly">Həftəlik</button>
+                  <button type="button" class="segment-btn" data-report-period="monthly" data-i18n="period.monthly">Aylıq</button>
+                  <button type="button" class="segment-btn" data-report-period="yearly" data-i18n="period.yearly">İllik</button>
+                  <button type="button" class="segment-btn" data-report-period="all" data-i18n="period.all">Bütün tarixçə</button>
+                </div>
+                <div class="chart-toggle" role="group" data-i18n-aria-label="reports.chartType">
+                  <button type="button" class="chart-toggle-btn active" aria-pressed="true" data-chart-type="bar" data-i18n="reports.barChart">Sütun</button>
+                  <button type="button" class="chart-toggle-btn" aria-pressed="false" data-chart-type="pie" data-i18n="reports.pieChart">Dairəvi</button>
+                  <button type="button" class="chart-toggle-btn" aria-pressed="false" data-chart-type="line" data-i18n="reports.lineChart">Xətt</button>
+                </div>
+              </div>
+            </div>
+            <div class="sales-report-meta"><span id="admin-report-range" class="chart-status" data-i18n="period.last7">Son 7 gün</span><span id="admin-report-insights" class="chart-status"></span><span id="admin-report-total" class="report-total"></span></div>
+            <div id="admin-report-breakdown" class="sales-chart-summary" aria-live="polite"></div>
+            <div class="sales-chart-wrap">
+              <div class="sales-chart-stage"><canvas id="admin-sales-chart" height="110" aria-label="Gündəlik satış qrafiki"></canvas><div id="admin-sales-pie" class="sales-pie" hidden></div></div>
+              <div id="admin-sales-legend" class="sales-chart-legend"></div>
+              <div id="admin-sales-summary" class="sales-chart-summary" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="card report-export-card">
+            <div class="section-header"><div><div class="eyebrow" data-i18n="reports.archive">Arxiv və paylaşım</div><h3 data-i18n="reports.export">Satış hesabatını ixrac et</h3></div><span class="chart-status">CSV · JSON · TXT</span></div>
+            <div class="report-export-controls">
+              <select class="input-field" id="admin-report-period" aria-label="Hesabat dövrü" data-i18n-aria-label="reports.period"><option value="daily" data-i18n="period.daily">Günlük</option><option value="weekly" data-i18n="period.weekly">Həftəlik</option><option value="monthly" data-i18n="period.monthly">Aylıq</option><option value="yearly" data-i18n="period.yearly">İllik</option><option value="all" data-i18n="period.all">Bütün tarixçə</option></select>
+              <select class="input-field" id="admin-report-format" aria-label="Hesabat formatı"><option value="csv">CSV</option><option value="json">JSON</option><option value="txt">Mətn</option></select>
+              <button class="btn btn-primary" onclick="downloadSalesReport('admin-report-period','admin-report-format')" data-i18n="reports.download">Hesabatı endir</button>
+            </div>
+            <div class="card report-export-card">
+              <div class="section-header"><div><div class="eyebrow" data-i18n="reports.eodKicker">Gün sonu</div><h3 data-i18n="reports.eodTitle">Gün sonu və kassa hesabatı</h3></div><button type="button" class="btn btn-outline" onclick="window.printEndOfDayReport()" data-i18n="reports.print">Çap et</button></div>
+              <div class="report-export-controls">
+                <select class="input-field" id="eod-period"><option value="today" data-i18n="reports.today">Bu gün</option><option value="yesterday" data-i18n="reports.yesterday">Dünən</option><option value="this_week" data-i18n="period.weekly">Bu həftə</option><option value="this_month" data-i18n="period.monthly">Bu ay</option></select>
+                <button type="button" class="btn btn-primary" onclick="loadEndOfDayReport()" data-i18n="reports.loadEod">Hesabatı göstər</button>
+              </div>
+              <div id="end-of-day-report" class="sales-chart-summary" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Tab 2: Stock & Raw Materials -->
+        <div id="admin-panel-stock" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h2 data-i18n="stock.title">Xammal və Təchizat Ehtiyatları (Əsas Anbar)</h2>
+            <button class="btn btn-primary" onclick="openNewMaterialModal()">
+              <span data-i18n="stock.add">+ Yeni Xammal Əlavə Et</span>
+            </button>
+          </div>
+          <div class="stock-alert-toolbar">
+            <div>
+              <div class="eyebrow" data-i18n="stock.signal">Anbar siqnalı</div>
+              <div class="stock-alert-caption" data-i18n="stock.signalHint">Azalan və kritik xammalı bir baxışda seçin</div>
+            </div>
+            <select id="stock-alert-filter" class="input-field stock-alert-filter" aria-label="Stok xəbərdarlığı filtri">
+              <option value="all">Bütün xəbərdarlıqlar</option>
+            </select>
+            <select id="stock-sort-filter" class="input-field stock-alert-filter" data-i18n-aria-label="stock.sortLabel" aria-label="Sıralama">
+              <option value="stock-asc" data-i18n="stock.sortLowStock">Az qalıq yuxarıda</option>
+              <option value="name-asc" data-i18n="stock.sortNameAsc">Əlifba A-Z</option>
+              <option value="name-desc" data-i18n="stock.sortNameDesc">Əlifba Z-A</option>
+              <option value="price-asc" data-i18n="stock.sortPriceAsc">Qiymət: aşağıdan yuxarı</option>
+              <option value="price-desc" data-i18n="stock.sortPriceDesc">Qiymət: yuxarıdan aşağı</option>
+            </select>
+          </div>
+          <div id="stock-alert-summary" class="stock-alert-summary" aria-live="polite"></div>
+          <div class="card data-table-container">
+            <table class="data-table" id="admin-stock-table">
+              <thead>
+                <tr>
+                  <th data-i18n="stock.name">Xammal Adı</th><th data-i18n="common.category">Kateqoriya</th><th data-i18n="stock.current">Mövcud Qalıq</th><th data-i18n="common.unit">Ölçü Vahidi</th><th data-i18n="stock.threshold">Kritik Hədd</th><th data-i18n="stock.unitPrice">Vahid Qiymət</th><th data-i18n="stock.days">Təxmini Gün</th><th data-i18n="common.status">Status</th><th data-i18n="common.actions">Əməliyyat</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 3: Catalog & Recipes -->
+        <div id="admin-panel-catalog" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 data-i18n="catalog.title">Məhsul Kataloqu və Çoxkomponentli Reseptlər</h2>
+              <button type="button" class="section-info-btn" data-section-info="catalog" data-i18n-title="sectionInfo.open" title="Bölmə haqqında məlumat" aria-label="Bölmə haqqında məlumat">i</button>
+            </div>
+            <button class="btn btn-primary" onclick="openNewProductModal()">
+              <span data-i18n="catalog.add">+ Yeni Məhsul Yarat</span>
+            </button>
+          </div>
+          <div class="report-export-controls" style="margin-bottom:12px">
+            <label class="form-field" style="min-width:180px"><span data-i18n="common.status">Status</span><select class="input-field" id="catalog-status-filter" onchange="filterAdminCatalog()"><option value="all">Hamısı</option><option value="active">Aktiv</option><option value="inactive">Passiv</option></select></label>
+          </div>
+          <div class="card data-table-container">
+            <table class="data-table" id="admin-catalog-table">
+              <thead>
+                <tr>
+                  <th data-i18n="catalog.product">Məhsul</th><th data-i18n="common.category">Kateqoriya</th><th data-i18n="catalog.variants">Variantlar və Qiymətlər</th><th data-i18n="catalog.recipe">Resept Əlaqəsi</th><th data-i18n="common.status">Status</th><th data-i18n="common.actions">Əməliyyat</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 4: Shifts -->
+        <div id="admin-panel-shifts" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h2 data-i18n="shifts.title">Kassir Növbələri və Balans Hesabatları</h2>
+            <button class="btn btn-accent" onclick="openShiftActionModal()">
+              <span data-i18n="shifts.toggle">Növbə Aç / Bağla</span>
+            </button>
+          </div>
+          <div class="card data-table-container">
+            <table class="data-table" id="admin-shifts-table">
+              <thead>
+                <tr>
+                  <th data-i18n="shifts.id">#ID</th>
+                  <th data-i18n="shifts.barista">Barista</th>
+                  <th data-i18n="shifts.openedAt">Açılma Vaxtı</th>
+                  <th data-i18n="shifts.closedAt">Bağlanma Vaxtı</th>
+                  <th data-i18n="shifts.openingCash">İlkin Kassa</th>
+                  <th data-i18n="shifts.actualCash">Faktiki Kassa</th>
+                  <th data-i18n="shifts.orderCount">Sifariş Sayı</th>
+                  <th data-i18n="common.status">Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 5: Inventory Counts -->
+        <div id="admin-panel-inventory" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h2 data-i18n="inventory.title">Faktiki Sayım və İtkilərin Qeydiyyatı (İnventarizasiya)</h2>
+            <button
+              class="btn btn-primary"
+              onclick="startNewInventorySession()"
+            >
+              <span data-i18n="inventory.start">+ Yeni Sayım Sessiyası Başlat</span>
+            </button>
+          </div>
+          <div class="card data-table-container">
+            <table class="data-table" id="admin-inventory-table">
+              <thead>
+                <tr>
+                  <th data-i18n="inventory.session">Sessiya #</th>
+                  <th data-i18n="inventory.auditor">Auditor</th>
+                  <th data-i18n="common.date">Tarix</th>
+                  <th data-i18n="inventory.itemCount">Maddə Sayı</th>
+                  <th data-i18n="inventory.varianceCount">Kənarlaşma Sayı</th>
+                  <th data-i18n="common.status">Status</th>
+                  <th data-i18n="common.actions">Əməliyyat</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 6: Staff Management -->
+        <div id="admin-panel-staff" style="display: none">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h2 data-i18n="staff.title">İşçi Heyəti (Baristalar)</h2>
+            <button class="btn btn-primary" onclick="openNewStaffModal()">
+              <span data-i18n="staff.add">+ Yeni Barista Əlavə Et</span>
+            </button>
+          </div>
+          <div class="card" style="max-width: 680px; margin-top: 16px">
+            <h3 data-i18n="staff.smtpTitle">📧 SMTP və şifrə sıfırlama</h3>
+            <p style="color: var(--text-muted); font-size: 13px" data-i18n="staff.smtpHint">Reset bağlantısı istifadəçinin hesabındakı e-poçta göndərilir. Şifrə heç vaxt e-poçtla göndərilmir.</p>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px">
+              <input class="input-field" id="smtp-host" placeholder="SMTP host" />
+              <input class="input-field" id="smtp-port" type="number" placeholder="587" />
+              <input class="input-field" id="smtp-username" placeholder="SMTP istifadəçi adı" />
+              <input class="input-field" id="smtp-from" placeholder="Göndərən e-poçt" />
+              <input class="input-field" id="smtp-password" type="password" placeholder="SMTP şifrəsi (dəyişmirsə boş saxla)" />
+            </div>
+            <label style="display: block; margin: 10px 0"><input type="checkbox" id="smtp-tls" checked /> STARTTLS istifadə et</label>
+            <button class="btn btn-primary" onclick="saveMailSettings()" data-i18n="staff.smtpSave">SMTP ayarlarını saxla</button>
+          </div>
+          <div class="card data-table-container">
+            <table class="data-table" id="admin-staff-table">
+              <thead>
+                <tr>
+                  <th data-i18n="staff.avatar">Avatar</th>
+                  <th data-i18n="staff.fullName">Ad Soyad</th>
+                  <th data-i18n="staff.username">İstifadəçi Adı</th>
+                  <th data-i18n="staff.email">E-poçt</th>
+                  <th data-i18n="staff.role">Vəzifə</th>
+                  <th data-i18n="staff.statusExitDate">Status / İşdən çıxma tarixi</th>
+                  <th data-i18n="common.actions">Əməliyyat</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 7: Data Retention Policy (Section M3) -->
+        <div id="admin-panel-retention" style="display: none">
+          <div class="card retention-policy-card">
+            <div class="section-header retention-policy-header">
+            <h2>
+              <span data-i18n="retention.title">Tarixi Məlumatların Saxlanma Siyasəti</span>
+            </h2>
+            <button type="button" class="section-info-btn" data-section-info="retention" data-i18n-title="sectionInfo.open" title="Bölmə haqqında məlumat" aria-label="Bölmə haqqında məlumat">i</button>
+            </div>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 14px;
+                margin-bottom: 20px;
+              "
+            >
+              <span data-i18n="retention.description">Sistem köhnə satış və audit qeydlərini avtomatik təmizləyə bilər. <strong>Qeyd:</strong> ML model çəkiləri, işçi hesabları və anbarın əsas xammal qalıqları heç vaxt silinmir.</span>
+            </p>
+            <div style="margin-bottom: 20px">
+              <label
+                style="
+                  display: block;
+                  font-size: 13px;
+                  margin-bottom: 6px;
+                  color: var(--text-muted);
+                "
+                ><span data-i18n="retention.period">Saxlanma müddəti:</span></label
+              >
+              <select class="input-field" id="retention-policy-select">
+                <option value="never" data-i18n="retention.options.never">
+                  Həmişə saxla (Never - Bütün tarixi arxiv saxlanılır)
+                </option>
+                <option value="1_year" data-i18n="retention.options.year">
+                  1 İl (1 ildən köhnə satışlar təmizlənir)
+                </option>
+                <option value="1_month" data-i18n="retention.options.month">
+                  1 Ay (30 gündən köhnə satışlar təmizlənir)
+                </option>
+                <option value="1_week" data-i18n="retention.options.week">
+                  1 Həftə (7 gündən köhnə satışlar təmizlənir)
+                </option>
+              </select>
+            </div>
+
+            <div class="retention-policy-actions">
+              <button class="btn btn-primary" onclick="saveRetentionPolicy()">
+                <span data-i18n="retention.save">Siyasəti Yadda Saxla</span>
+              </button>
+              <button
+                class="btn btn-outline"
+                onclick="runRetentionCleanupNow()"
+              >
+                <span data-i18n="retention.cleanup">İndi Təmizləməni İcra Et</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 4: DEVELOPER TECHNICAL HUB (Section K, L, M) -->
+      <!-- ============================================== -->
+      <section class="admin-layout" id="view-developer" style="display: none">
+        <div style="margin-bottom: 20px">
+          <h2>Developer Texniki İdarəetmə və Təhlükəsizlik Mərkəzi</h2>
+          <p style="color: var(--text-muted); font-size: 14px">
+            REAL rejim aktivasiyası, bazanın şifrələnməsi, uzaq sinxronizasiya
+            və ixrac alətləri.
+          </p>
+        </div>
+        <div class="admin-grid-2" style="margin-bottom:20px">
+          <section class="card">
+            <div class="section-header"><div><div class="eyebrow">System status</div><h3>🖥️ Sistem vəziyyəti</h3></div><span class="badge badge-success" id="developer-health-badge">Yoxlanılır...</span></div>
+            <div id="developer-health-details" style="color:var(--text-secondary);font-size:13px">Məlumat yüklənir...</div>
+            <button type="button" class="btn btn-outline btn-sm" onclick="loadDeveloperHealth()">Yenilə</button>
+          </section>
+          <section class="card">
+            <div class="section-header"><div><div class="eyebrow">Backup & restore</div><h3>💾 Baza ehtiyat nüsxəsi</h3></div></div>
+            <div id="developer-backup-list" style="color:var(--text-secondary);font-size:13px;margin-bottom:10px">Yüklənir...</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn btn-primary btn-sm" onclick="createDeveloperBackup()">İndi backup et</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="loadDeveloperBackups()">Siyahını yenilə</button>
+            </div>
+          </section>
+        </div>
+        <section class="card" style="margin-bottom:20px">
+          <div class="section-header"><div><div class="eyebrow">Network / Server Binding</div><h3>🌐 Server şəbəkə ayarları</h3></div></div>
+          <div class="form-grid">
+            <label class="form-field"><span>Host</span><select class="input-field" id="developer-network-host"><option value="127.0.0.1">127.0.0.1 — yalnız lokal</option><option value="0.0.0.0">0.0.0.0 — bütün interfeyslər</option></select></label>
+            <label class="form-field"><span>Port</span><input class="input-field" id="developer-network-port" type="number" min="1" max="65535" value="8000"></label>
+          </div>
+          <p class="text-secondary">Dəyişikliklər saxlanıldıqdan sonra tətbiqi yenidən başladın. 0.0.0.0 yalnız etibarlı lokal şəbəkədə istifadə olunmalıdır.</p>
+          <button type="button" class="btn btn-outline btn-sm" onclick="saveDeveloperNetworkSettings()">Ayarları saxla</button>
+        </section>
+        <section class="card" style="margin-bottom:20px">
+          <div class="section-header"><div><div class="eyebrow">Multi-branch</div><h3>🏬 Filial idarəetməsi</h3></div></div>
+          <div id="developer-branches-list" style="color:var(--text-secondary);font-size:13px;margin-bottom:10px">Yüklənir...</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input class="input-field" id="new-branch-name" placeholder="Filial adı">
+            <input class="input-field" id="new-branch-code" placeholder="Filial kodu">
+            <button type="button" class="btn btn-outline btn-sm" onclick="createDeveloperBranch()">Filial əlavə et</button>
+          </div>
+        </section>
+
+        <!-- Real Mode & License Box (Rule L) -->
+        <div
+          class="card"
+          data-az-tooltip="Bu bölmə sistemin lisenziya və REAL/Demo rejimini tənzimləyir"
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 14px;
+            "
+          >
+            <div class="section-title">
+              🔐 Lisenziya və Demo / REAL Rejim Statusu
+            </div>
+            <span class="badge badge-dev" id="dev-license-badge"
+              >Yoxlanılır...</span
+            >
+          </div>
+          <p
+            id="dev-license-message"
+            style="
+              color: var(--text-secondary);
+              font-size: 14px;
+              margin-bottom: 16px;
+            "
+          ></p>
+
+          <div
+            style="display: flex; gap: 12px; flex-wrap: wrap"
+            id="dev-activation-row"
+          >
+            <input
+              type="text"
+              class="input-field"
+              style="max-width: 380px"
+              id="dev-activation-key-input"
+              placeholder="Developer Aktivasiya Açarı (Məs: ILLY-REAL-...)"
+            />
+            <button
+              class="btn btn-primary"
+              onclick="submitRealModeActivation()"
+              data-az-tooltip="HMAC-SHA256 kriptoqrafik açarla REAL rejimi aktivləşdir"
+            >
+              REAL Rejimi Aktivləşdir
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="generateBranchKey()"
+              data-az-tooltip="Cari filial kodu üçün autentik açar generasiya et"
+            >
+              Filial üçün Açar Yarat (CLI Generator)
+            </button>
+          </div>
+        </div>
+
+        <!-- REAL Mode Database Exports (Rule M5) -->
+        <div
+          class="card"
+          data-az-tooltip="Bu bölmə tam bazanı SQL, JSON və TXT formatlarında ixrac edir"
+        >
+          <h3 style="margin-bottom: 8px">
+            💾 REAL-Rejim Verilənlər Bazasının İxracı (M5)
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 14px;
+              margin-bottom: 16px;
+            "
+          >
+            Yalnız REAL rejim aktiv olduqda bazanın tam çıxarışı təhlükəsiz
+            formatlarda endirilə bilər:
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap">
+            <button
+              type="button"
+              onclick="
+                downloadDeveloperFile(
+                  '/api/developer/export/sql',
+                  'coffeeshop_export.sql',
+                )
+              "
+              class="btn btn-outline"
+              data-az-tooltip="Bütün cədvəllər və qeydləri SQL dump formatında endir"
+            >
+              📥 .SQL Skripti İxrac Et
+            </button>
+            <button
+              type="button"
+              onclick="
+                downloadDeveloperFile(
+                  '/api/developer/export/json',
+                  'coffeeshop_export.json',
+                )
+              "
+              class="btn btn-outline"
+              data-az-tooltip="Bütün strukturu JSON ağac formatında endir"
+            >
+              📥 .JSON Struktur İxrac Et
+            </button>
+            <button
+              type="button"
+              onclick="
+                downloadDeveloperFile(
+                  '/api/developer/export/txt',
+                  'coffeeshop_tree_structure.txt',
+                )
+              "
+              class="btn btn-outline"
+              data-az-tooltip="Vizual mətn ağacı formatında çıxarış endir"
+            >
+              📥 .TXT Ağac Görünüşü (Tree)
+            </button>
+          </div>
+        </div>
+
+        <!-- Remote Sync Configuration & Package Generation (Section K) -->
+        <div
+          class="card"
+          data-az-tooltip="Bu panel uzaq server sinxronizasiyasını idarə edir"
+        >
+          <h3 style="margin-bottom: 8px">
+            🌐 Uzaq Sinxronizasiya və Server ZIP Generatoru (Section K)
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 14px;
+              margin-bottom: 16px;
+            "
+          >
+            Lokal bazadan mərkəzi serverə təhlükəsiz Python API üzərindən
+            məlumat ötürülməsi.
+          </p>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 16px;
+              margin-bottom: 16px;
+            "
+          >
+            <div>
+              <label
+                style="
+                  font-size: 13px;
+                  color: var(--text-secondary);
+                  font-weight: 600;
+                "
+                >Sinxronizasiya Rejimi:</label
+              >
+              <select class="input-field" id="dev-sync-mode">
+                <option value="local_only">
+                  Yalnız Lokal (Local Only - Tövsiyə olunan standart)
+                </option>
+                <option value="local_remote">
+                  Lokal + Uzaq Sinxronizasiya (Local + Remote Sync)
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                style="
+                  font-size: 13px;
+                  color: var(--text-secondary);
+                  font-weight: 600;
+                "
+                >Uzaq Server URL (Python API endpoint):</label
+              >
+              <input
+                type="text"
+                class="input-field"
+                id="dev-sync-url"
+                placeholder="https://api.illycoffee-central.com"
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  font-size: 13px;
+                  color: var(--text-secondary);
+                  font-weight: 600;
+                "
+                >Təhlükəsizlik Tokeni (Bearer):</label
+              >
+              <input
+                type="password"
+                class="input-field"
+                id="dev-sync-token"
+                placeholder="Gizli sinxronizasiya tokeni"
+              />
+            </div>
+            <div style="display: flex; align-items: flex-end; gap: 10px">
+              <button class="btn btn-outline" onclick="testRemoteConnection()">
+                Bağlantını Yoxla
+              </button>
+              <button class="btn btn-primary" onclick="saveSyncSettings()">
+                Yadda Saxla
+              </button>
+            </div>
+          </div>
+
+          <div
+            style="
+              border-top: 1px dashed var(--border);
+              padding-top: 14px;
+              display: flex;
+              gap: 12px;
+              flex-wrap: wrap;
+            "
+          >
+            <button
+              class="btn btn-accent"
+              onclick="triggerImmediateSync()"
+              data-az-tooltip="Lokal növbədəki bütün satışları dərhal uzaq serverə göndər"
+            >
+              ⚡ İndi Sinxronlaşdır (Növbəni Boşalt)
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="triggerFullReplication()"
+              data-az-tooltip="Lokal bazadakı bütün məlumatların tam replikasiyasını icra et"
+            >
+              📤 Bütün Mövcud Məlumatları Göndər
+            </button>
+            <button
+              type="button"
+              onclick="
+                downloadDeveloperFile(
+                  '/api/sync/download-package',
+                  'illy_coffee_remote_server.zip',
+                )
+              "
+              class="btn btn-primary"
+              data-az-tooltip="Uzaq server üçün hazır Python backend paketini ZIP arxivində endir"
+            >
+              📦 Uzaq Python Server Paketini Endir (.ZIP)
+            </button>
+          </div>
+        </div>
+
+        <!-- Technical ML Analytics & Diagnostics (Section I2) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+          <div
+            class="card"
+            data-az-tooltip="Süni intellekt modelinin konvergensiya və xəta diaqnostikası"
+          >
+            <h3 style="margin-bottom: 14px">
+              📊 Texniki ML Diaqnostikası (I2)
+            </h3>
+            <div id="dev-ml-metrics-box"></div>
+          </div>
+          <div
+            class="card"
+            data-az-tooltip="Bu göstərici sistem resurslarını göstərir"
+          >
+            <h3 style="margin-bottom: 14px">
+              🖥️ Sistem Sağlamlığı və Resurslar
+            </h3>
+            <div id="dev-system-health-box"></div>
+          </div>
+        </div>
+
+        <div class="card report-export-card">
+          <div class="section-header"><div><div class="eyebrow">Developer export</div><h3>Satış hesabatları</h3></div><span class="chart-status">Günlük · Aylıq · İllik · Hamısı</span></div>
+          <div class="report-export-controls">
+            <select class="input-field" id="dev-report-period" aria-label="Developer hesabat dövrü"><option value="daily">Günlük</option><option value="monthly">Aylıq</option><option value="yearly">İllik</option><option value="all">Bütün tarixçə</option></select>
+            <select class="input-field" id="dev-report-format" aria-label="Developer hesabat formatı"><option value="csv">CSV</option><option value="json">JSON</option><option value="txt">Mətn</option></select>
+            <button class="btn btn-primary" onclick="downloadSalesReport('dev-report-period','dev-report-format')">Hesabatı endir</button>
+          </div>
+        </div>
+
+        <!-- Developer Technical Audit Logs -->
+        <div
+          class="card data-table-container"
+          data-az-tooltip="Developer tərəfindən icra edilmiş texniki əməliyyatların audit qeydləri"
+        >
+          <h3 style="margin-bottom: 14px">🛡️ Developer Audit Jurnalı</h3>
+          <table class="data-table" id="dev-audit-table">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Tarix</th>
+                <th>Əməliyyat</th>
+                <th>Təfərrüat</th>
+                <th>IP Ünvan</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>👥 İstifadəçi idarəetməsi</h3>
+          <p style="color: var(--text-muted); font-size: 13px">Admin və barista hesablarını burada idarə edin. Developer hesabı silinmir və dəyişdirilmir.</p>
+          <div class="data-table-container">
+            <table class="data-table" id="dev-staff-table">
+              <thead><tr><th>Ad</th><th>İstifadəçi</th><th>E-poçt</th><th>Rol</th><th>Əməliyyat</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <button class="btn btn-primary" onclick="openDeveloperNewUser()">+ İstifadəçi yarat</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================== -->
+    <!-- MODALS                                         -->
+    <!-- ============================================== -->
+
+    <!-- Password Prompt Modal (GNOME Profile Click) -->
+    <div class="modal-overlay" id="modal-password-prompt" style="display: none">
+      <div class="modal-box">
+        <img
+          src="/static/images/avatar-user.svg"
+          class="modal-avatar"
+          id="modal-pwd-avatar"
+          alt="Avatar"
+        />
+        <h2 class="modal-title" id="modal-pwd-username">İstifadəçi Adı</h2>
+        <div class="modal-subtitle" id="modal-pwd-role">Barista</div>
+
+        <form onsubmit="submitProfilePassword(event)">
+          <input
+            type="password"
+            class="input-field"
+            id="modal-pwd-input"
+            placeholder="Şifrənizi daxil edin"
+            autofocus
+            required
+            style="
+              text-align: center;
+              font-size: 18px;
+              letter-spacing: 2px;
+              margin-bottom: 16px;
+            "
+          />
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closePasswordModal()"
+              style="flex: 1"
+            >
+              Geri
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              Daxil Ol
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- User Create Modal -->
+    <div class="modal-overlay" id="modal-user-form" style="display: none">
+      <div class="modal-box user-form-modal" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
+        <div class="modal-kicker">İŞÇİ HEYƏTİ</div>
+        <h2 class="modal-title" id="user-form-title">Yeni istifadəçi</h2>
+        <p class="modal-subtitle" id="user-form-subtitle">Admin və ya barista hesabını təhlükəsiz şəkildə yaradın.</p>
+        <form id="user-form" onsubmit="submitUserForm(event)">
+          <input type="hidden" id="user-form-mode" value="create">
+          <div class="form-grid">
+            <label class="form-field"><span>Ad və soyad</span><input class="input-field" id="user-form-full-name" required autocomplete="name" placeholder="Məs: Aysel Məmmədova"></label>
+            <label class="form-field"><span>İstifadəçi adı</span><input class="input-field" id="user-form-username" required autocomplete="username" placeholder="Məs: barista_aysel"></label>
+            <label class="form-field"><span>Rol</span><select class="input-field" id="user-form-role"><option value="barista">Barista</option><option value="admin">Admin</option></select></label>
+            <label class="form-field"><span>E-poçt <small>(istəyə görə)</small></span><input class="input-field" id="user-form-email" type="email" autocomplete="email" placeholder="reset@coffee.local"></label>
+            <label class="form-field form-field-wide"><span>İlkin şifrə</span><input class="input-field" id="user-form-password" type="password" required minlength="8" autocomplete="new-password" placeholder="Ən azı 8 simvol"></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-outline" onclick="closeUserFormModal()">İmtina</button>
+            <button type="submit" class="btn btn-primary">İstifadəçini yarat</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- "Other" Manual Login Modal (Rule D4) -->
+    <div class="modal-overlay" id="modal-other-login" style="display: none">
+      <div class="modal-box">
+        <div
+          class="other-icon"
+          style="
+            margin: 0 auto 16px;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(212, 163, 115, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--accent);
+          "
+        >
+          🔑
+        </div>
+        <h2 class="modal-title">Xüsusi Giriş</h2>
+        <div class="modal-subtitle">
+          Developer və ya xüsusi istifadəçi girişi
+        </div>
+
+        <form onsubmit="submitOtherLogin(event)">
+          <input
+            type="text"
+            class="input-field"
+            id="other-username-input"
+            placeholder="İstifadəçi adı (məs: developer)"
+            required
+            style="margin-bottom: 12px"
+          />
+          <input
+            type="password"
+            class="input-field"
+            id="other-password-input"
+            placeholder="Şifrə"
+            required
+            style="margin-bottom: 20px"
+          />
+          <button type="button" class="btn btn-outline btn-sm" onclick="openForgotPasswordModal()" style="width: 100%; margin-bottom: 12px">
+            Şifrəni unutdum
+          </button>
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeOtherLoginModal()"
+              style="flex: 1"
+            >
+              Geri
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              Daxil Ol
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-forgot-password" style="display: none">
+      <div class="modal-box">
+        <h2 class="modal-title">Şifrəni sıfırla</h2>
+        <div class="modal-subtitle">İstifadəçi adı və ya qeydiyyatlı e-poçtu daxil edin.</div>
+        <form onsubmit="submitForgotPassword(event)">
+          <input class="input-field" id="forgot-identifier-input" required autocomplete="username" placeholder="İstifadəçi adı və ya e-poçt" style="margin-bottom: 16px" />
+          <div style="display: flex; gap: 10px">
+            <button type="button" class="btn btn-outline" onclick="closeForgotPasswordModal()" style="flex: 1">Geri</button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">Bağlantı göndər</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-reset-password" style="display: none">
+      <div class="modal-box">
+        <h2 class="modal-title">Yeni şifrə</h2>
+        <form onsubmit="submitResetPassword(event)">
+          <input type="password" class="input-field" id="reset-password-input" minlength="8" required autocomplete="new-password" placeholder="Yeni şifrə (ən azı 8 simvol)" style="margin-bottom: 16px" />
+          <button type="submit" class="btn btn-primary" style="width: 100%">Şifrəni yenilə</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Variant Selector Modal (For products with multiple sizes) -->
+    <div class="modal-overlay" id="modal-variant-select" style="display: none">
+      <div class="modal-box">
+        <h2 class="modal-title" id="variant-modal-title">Variantı Seçin</h2>
+        <div class="modal-subtitle">Ölçü və ya qablaşdırma növü</div>
+        <div
+          id="variant-modal-list"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+          "
+        ></div>
+        <button
+          class="btn btn-outline"
+          onclick="closeVariantModal()"
+          style="width: 100%"
+        >
+          Ləğv Et
+        </button>
+      </div>
+    </div>
+
+    <!-- Internal Operational Ticket Modal (Rule F6) -->
+    <div class="modal-overlay" id="modal-ticket-view" style="display: none">
+      <div class="modal-box" style="max-width: 480px">
+        <h2 class="modal-title" style="margin-bottom: 12px">
+          Daxili Sifariş Qəbzi
+        </h2>
+        <div class="ticket-preview" id="ticket-text-preview"></div>
+        <div style="display: flex; gap: 10px; margin-top: 16px">
+          <button
+            class="btn btn-primary"
+            onclick="printTicket()"
+            style="flex: 1"
+          >
+            🖨️ Çap Et
+          </button>
+          <button
+            class="btn btn-outline"
+            onclick="closeTicketModal()"
+            style="flex: 1"
+          >
+            Bağla
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Void / Cancel Order Modal (Rule F3) -->
+    <div class="modal-overlay" id="modal-cancel-order" style="display: none">
+      <div class="modal-box">
+        <h2 class="modal-title" style="color: var(--danger)">
+          Sifarişi Ləğv Et
+        </h2>
+        <div class="modal-subtitle">
+          Ləğv səbəbini qeyd edin. Anbar qalıqları avtomatik bərpa olunacaq.
+        </div>
+        <form onsubmit="submitOrderCancel(event)">
+          <input type="hidden" id="cancel-order-id" />
+          <textarea
+            class="input-field"
+            id="cancel-order-reason"
+            placeholder="Ləğv səbəbi (məs: Müştəri fikrini dəyişdi / Səhv vuruldu)"
+            required
+            rows="3"
+            style="margin-bottom: 16px"
+          ></textarea>
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeCancelModal()"
+              style="flex: 1"
+            >
+              İmtina
+            </button>
+            <button type="submit" class="btn btn-danger" style="flex: 1">
+              Ləğv Et və Bərpa Et
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- New / Edit Raw Material Modal -->
+    <div class="modal-overlay" id="modal-raw-material" style="display: none">
+      <div class="modal-box" style="max-width: 480px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 16px">
+          Yeni Xammal Maddəsi
+        </h2>
+        <form onsubmit="submitCreateMaterial(event)">
+          <label style="font-size: 13px; color: var(--text-muted)"
+            >Xammalın Adı:</label
+          >
+          <input
+            type="text"
+            class="input-field"
+            id="mat-name-input"
+            placeholder="Məs: Illy Espresso Dənələri"
+            required
+            style="margin-bottom: 10px"
+          />
+
+          <label style="font-size: 13px; color: var(--text-muted)"
+            >Kateqoriya:</label
+          >
+          <input
+            type="text"
+            class="input-field"
+            id="mat-cat-input"
+            placeholder="Məs: Qəhvə Dənələri / Süd / Qablaşdırma"
+            required
+            style="margin-bottom: 10px"
+          />
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 10px;
+            "
+          >
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                >Ölçü Vahidi:</label
+              >
+              <select class="input-field" id="mat-unit-input">
+                <option value="g">Qram (g)</option>
+                <option value="ml">Millilitr (ml)</option>
+                <option value="ədəd">Ədəd (pcs)</option>
+                <option value="dəst">Dəst / Paket</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                >İlkin Qalıq:</label
+              >
+              <input
+                type="number"
+                step="0.1"
+                class="input-field"
+                id="mat-stock-input"
+                value="100.0"
+                required
+              />
+            </div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 20px;
+            "
+          >
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                >Kritik Xəbərdarlıq Həddi:</label
+              >
+              <input
+                type="number"
+                step="0.1"
+                class="input-field"
+                id="mat-min-input"
+                value="20.0"
+                required
+              />
+            </div>
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                >Vahid Maya Dəyəri (AZN):</label
+              >
+              <input
+                type="number"
+                step="0.001"
+                class="input-field"
+                id="mat-cost-input"
+                value="0.05"
+                required
+              />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeMaterialModal()"
+              style="flex: 1"
+            >
+              <span data-i18n="common.close">Bağla</span>
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              <span data-i18n="common.save">Yadda Saxla</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Restock Modal -->
+    <div class="modal-overlay" id="modal-restock" style="display: none">
+      <div class="modal-box">
+        <h2 class="modal-title">Anbara Mədaxil</h2>
+        <div class="modal-subtitle" id="restock-material-title">
+          Xammal Qalığını Artır
+        </div>
+        <form onsubmit="submitRestock(event)">
+          <input type="hidden" id="restock-mat-id" />
+          <label
+            style="
+              font-size: 13px;
+              color: var(--text-muted);
+              display: block;
+              text-align: left;
+              margin-bottom: 6px;
+            "
+            >Əlavə olunacaq miqdar:</label
+          >
+          <input
+            type="number"
+            step="0.1"
+            class="input-field"
+            id="restock-qty-input"
+            required
+            placeholder="Miqdar"
+            style="margin-bottom: 12px"
+          />
+          <label style="font-size:13px;color:var(--text-muted);display:block;text-align:left;margin-bottom:6px" data-i18n="stock.wasteQuantity">Zay / itki miqdarı:</label>
+          <input type="number" step="0.1" min="0" class="input-field" id="restock-waste-input" value="0" style="margin-bottom:12px" />
+          <input
+            type="text"
+            class="input-field"
+            id="restock-notes-input"
+            placeholder="Qeyd (məs: Faktura #4920, Təchizatçı)"
+            style="margin-bottom: 20px"
+          />
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeRestockModal()"
+              style="flex: 1"
+            >
+              İmtina
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              Mədaxili Təsdiqlə
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Recipe Editor Modal (Section E2) -->
+    <div class="modal-overlay" id="modal-recipe-editor" style="display: none">
+      <div class="modal-box" style="max-width: 600px; text-align: left">
+        <h2 class="modal-title" id="recipe-editor-title" data-i18n="catalog.recipeEditor">
+          Resept Tənzimləməsi
+        </h2>
+        <div class="modal-subtitle">
+          Məhsul variantı satıldıqda avtomatik silinəcək xammal miqdarları
+        </div>
+        <div class="recipe-help-panel" role="note">
+          <strong>Bu sətirdə nə daxil edilir?</strong>
+          <span><b>Xammal:</b> reseptdə istifadə olunan materialı seçin.</span>
+          <span><b>Miqdar:</b> bir ədəd bu variant üçün istifadə olunan xammal miqdarıdır; vahid seçilmiş xammalın yanında göstərilir (məsələn, <b>18 g</b> və ya <b>250 ml</b>).</span>
+          <span><b>İtki əmsalı:</b> hazırlanma itkisini nəzərə alan vurandır. <b>1.00</b> itkisiz, <b>1.03</b> təxminən 3% itki deməkdir. Sistem stokdan <i>miqdar × əmsal</i> qədər çıxır.</span>
+        </div>
+        <div class="recipe-column-guide" aria-hidden="true">
+          <span>Xammal və vahid</span>
+          <span>Miqdar</span>
+          <span>İtki əmsalı</span>
+          <span>Əməliyyat</span>
+        </div>
+        <input type="hidden" id="recipe-variant-id" />
+
+        <div
+          id="recipe-ingredients-list"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+            max-height: 250px;
+            overflow-y: auto;
+          "
+        ></div>
+
+        <button
+          type="button"
+          class="btn btn-outline btn-sm"
+          onclick="addRecipeIngredientRow()"
+          data-az-tooltip="Yeni xammal sətri əlavə edir. Hər xammal üçün miqdar və itki əmsalını ayrıca daxil edin."
+          style="margin-bottom: 20px"
+        >
+          + Tərkib Hissəsi Əlavə Et
+        </button>
+
+        <div style="display: flex; gap: 10px">
+          <button
+            type="button"
+            class="btn btn-outline"
+            onclick="closeRecipeModal()"
+            data-az-tooltip="Dəyişiklikləri yadda saxlamadan resept pəncərəsini bağlayır."
+            style="flex: 1"
+          >
+            İmtina
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            onclick="clearWholeRecipe()"
+            data-az-tooltip="Bu variantın bütün xammal reseptini silir. Bu əməliyyat satış zamanı stok çıxışını dayandırır."
+            style="flex: 1"
+          >
+            Resepti Tam Sil
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="saveVariantRecipe()"
+            data-az-tooltip="Xammal, miqdar və itki əmsallarını yoxlayıb bu variant üçün yadda saxlayır."
+            style="flex: 1"
+          >
+            Resepti Yadda Saxla
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Product Modal -->
+    <div class="modal-overlay" id="modal-create-product" style="display: none">
+      <div class="modal-box" style="max-width: 520px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 16px">
+          Yeni Məhsul Yarat
+        </h2>
+        <form onsubmit="submitCreateProduct(event)">
+          <label
+            style="font-size: 14px; color: var(--text-muted); font-weight: 600"
+            >Məhsulun Adı:</label
+          >
+          <input
+            type="text"
+            class="input-field"
+            id="new-prod-name"
+            placeholder="Məs: Caramel Macchiato"
+            required
+            style="margin-bottom: 12px"
+          />
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 12px;
+            "
+          >
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >Kateqoriya:</label
+              >
+              <select class="input-field" id="new-prod-category">
+                <option value="Espresso">Espresso</option>
+                <option value="Südlü Qəhvələr">Südlü Qəhvələr</option>
+                <option value="Soyuq Qəhvələr">Soyuq Qəhvələr</option>
+                <option value="Çay & Bitki Çayları">Çay & Bitki Çayları</option>
+                <option value="Xüsusi İçkilər">Xüsusi İçkilər</option>
+                <option value="Şirniyyat">Şirniyyat</option>
+                <option value="Qəlyanaltı">Qəlyanaltı</option>
+                <option value="Digər">Digər</option>
+              </select>
+            </div>
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >İlkin Satış Qiyməti (AZN):</label
+              >
+              <input
+                type="number"
+                step="0.1"
+                class="input-field"
+                id="new-prod-price"
+                placeholder="5.50"
+                value="5.50"
+                required
+              />
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >İlkin Variant Adı:</label
+            >
+            <input
+              type="text"
+              class="input-field"
+              id="new-prod-variant"
+              value="Standart"
+              placeholder="Məs: Standart / Fincan / 8oz"
+              required
+            />
+          </div>
+
+          <div style="margin-bottom: 12px">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >İkon / Şəkil Seçimi:</label
+            >
+            <div style="display: flex; gap: 10px; align-items: center">
+              <select
+                class="input-field"
+                id="new-prod-icon"
+                onchange="previewNewProdIcon(this.value)"
+                style="flex: 1"
+              >
+                <option value="/static/images/icons/premium-espresso.svg">
+                  Espresso İkonu
+                </option>
+                <option value="/static/images/icons/premium-milk.svg">
+                  Cappuccino İkonu
+                </option>
+                <option value="/static/images/icons/premium-milk.svg">
+                  Latte İkonu
+                </option>
+                <option value="/static/images/icons/premium-espresso.svg">
+                  Americano İkonu
+                </option>
+                <option value="/static/images/icons/premium-cold.svg">
+                  Cold Brew İkonu
+                </option>
+                <option value="/static/images/icons/premium-cold.svg">
+                  Frappe İkonu
+                </option>
+                <option value="/static/images/icons/premium-tea.svg">Çay İkonu</option>
+                <option value="/static/images/icons/premium-pastry.svg">
+                  Kruasan İkonu
+                </option>
+                <option value="/static/images/icons/premium-pastry.svg">
+                  Desert İkonu
+                </option>
+                <option value="/static/images/icons/premium-pastry.svg">
+                  Sendviç İkonu
+                </option>
+                <option value="/static/images/icons/premium-cold.svg">
+                  Şirə İkonu
+                </option>
+                <option value="/static/images/illy-logo.svg">
+                  Standart Illy Fincanı
+                </option>
+              </select>
+              <img
+                id="new-prod-icon-preview"
+                src="/static/images/icons/premium-espresso.svg"
+                style="
+                  width: 44px;
+                  height: 44px;
+                  border-radius: 20%;
+                  object-fit: cover;
+                  border: 1px solid var(--border);
+                "
+              />
+            </div>
+            <div style="margin-top: 6px">
+              <label
+                class="btn btn-outline btn-sm"
+                style="
+                  cursor: pointer;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 6px;
+                "
+              >
+                📁 Fərdi Şəkil Yüklə (.PNG/.JPG)
+                <input
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  onchange="uploadCustomProductImage(this)"
+                />
+              </label>
+              <span
+                id="new-prod-upload-status"
+                style="
+                  font-size: 12px;
+                  color: var(--text-muted);
+                  margin-left: 8px;
+                "
+              ></span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Təsvir (İstəyə görə):</label
+            >
+            <textarea
+              class="input-field"
+              id="new-prod-desc"
+              rows="2"
+              placeholder="Məhsul haqqında qısa məlumat"
+            ></textarea>
+          </div>
+
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeNewProductModal()"
+              style="flex: 1"
+            >
+              İmtina
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              Yarat və Saxla
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-edit-product" style="display:none">
+      <div class="modal-box" style="max-width:520px;text-align:left">
+        <h2 class="modal-title" data-i18n="catalog.editTitle">Məhsulu redaktə et</h2>
+        <form onsubmit="submitEditProduct(event)">
+          <input type="hidden" id="edit-prod-id">
+          <label class="form-field"><span data-i18n="catalog.name">Məhsul adı</span><input class="input-field" id="edit-prod-name" required></label>
+          <label class="form-field"><span data-i18n="catalog.category">Kateqoriya</span><input class="input-field" id="edit-prod-category" required></label>
+          <label class="form-field"><span data-i18n="catalog.description">Açıqlama</span><textarea class="input-field" id="edit-prod-description" rows="3"></textarea></label>
+          <label class="form-field"><span data-i18n="catalog.image">Şəkil URL-i</span><input class="input-field" id="edit-prod-image"></label>
+          <label class="form-field"><span data-i18n="common.status">Status</span><select class="input-field" id="edit-prod-status"><option value="1">Aktiv</option><option value="0">Passiv</option></select></label>
+          <div class="modal-actions"><button type="button" class="btn btn-outline" onclick="closeEditProductModal()" data-i18n="common.cancel">İmtina</button><button type="submit" class="btn btn-primary" data-i18n="common.save">Yadda saxla</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Raw Material Modal -->
+    <div class="modal-overlay" id="modal-edit-stock" style="display: none">
+      <div class="modal-box" style="max-width: 500px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 16px">
+          Xammalı Redaktə Et
+        </h2>
+        <form onsubmit="submitEditStock(event)">
+          <input type="hidden" id="edit-mat-id" />
+          <label
+            style="font-size: 14px; color: var(--text-muted); font-weight: 600"
+            >Xammalın Adı:</label
+          >
+          <input
+            type="text"
+            class="input-field"
+            id="edit-mat-name"
+            required
+            style="margin-bottom: 12px"
+          />
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 12px;
+            "
+          >
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >Kateqoriya:</label
+              >
+              <input
+                type="text"
+                class="input-field"
+                id="edit-mat-cat"
+                required
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >Ölçü Vahidi:</label
+              >
+              <select class="input-field" id="edit-mat-unit">
+                <option value="g">Qram (g)</option>
+                <option value="ml">Millilitr (ml)</option>
+                <option value="ədəd">Ədəd (pcs)</option>
+                <option value="dəst">Dəst / Paket</option>
+              </select>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 12px;
+            "
+          >
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >Mövcud Qalıq:</label
+              >
+              <input
+                type="number"
+                step="0.1"
+                class="input-field"
+                id="edit-mat-stock"
+                required
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  font-size: 14px;
+                  color: var(--text-muted);
+                  font-weight: 600;
+                "
+                >Kritik Xəbərdarlıq Həddi:</label
+              >
+              <input
+                type="number"
+                step="0.1"
+                class="input-field"
+                id="edit-mat-min"
+                required
+              />
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Vahid Maya Dəyəri (AZN):</label
+            >
+            <input
+              type="number"
+              step="0.001"
+              class="input-field"
+              id="edit-mat-cost"
+              required
+            />
+          </div>
+
+          <div style="margin-bottom: 20px">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >Düzəliş Səbəbi / Qeyd:</label
+            >
+            <input
+              type="text"
+              class="input-field"
+              id="edit-mat-notes"
+              placeholder="Məs: İnventarizasiya düzəlişi / Səhv qalıq daxil edilmişdi"
+            />
+          </div>
+
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeEditStockModal()"
+              style="flex: 1"
+            >
+              Bağla
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="deleteStockFromModal()"
+              style="flex: 1"
+            >
+              Sil
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              Yadda Saxla
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dynamic Shortcuts Manager Modal -->
+    <div
+      class="modal-overlay"
+      id="modal-shortcuts-manager"
+      style="display: none"
+    >
+      <div class="modal-box" style="max-width: 620px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 8px">
+          <span data-i18n="pos.shortcuts">⭐ Tez Satış Qısayolları</span>
+        </h2>
+        <div class="modal-subtitle" style="margin-bottom: 16px">
+          <span data-i18n="pos.shortcutsHint">İstənilən məhsulu qısayola əlavə edin, ardıcıllığı dəyişin və fərdi ikonlar təyin edin</span>
+        </div>
+
+        <!-- Add New Shortcut Section -->
+        <div
+          style="
+            background: var(--bg-card-hover);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+          "
+        >
+          <h4 style="margin-bottom: 10px; font-size: 15px">
+            <span data-i18n="pos.shortcutsAdd">+ Yeni Qısayol Əlavə Et</span>
+          </h4>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              margin-bottom: 10px;
+            "
+          >
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                ><span data-i18n="pos.shortcutProductVariant">Məhsul və Variant:</span></label
+              >
+              <select
+                class="input-field"
+                id="sc-new-variant-select"
+                onchange="onShortcutVariantSelected()"
+              ></select>
+            </div>
+            <div>
+              <label style="font-size: 13px; color: var(--text-muted)"
+                ><span data-i18n="pos.shortcutLabel">Xüsusi Etiket (İstəyə görə):</span></label
+              >
+              <input
+                type="text"
+                class="input-field"
+                id="sc-new-label-input"
+                placeholder="Məs: Tək Espresso" data-i18n-placeholder="pos.shortcutLabelPlaceholder"
+              />
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: center;
+              margin-bottom: 10px;
+            "
+          >
+            <div style="flex: 1">
+              <label style="font-size: 13px; color: var(--text-muted)"
+                ><span data-i18n="pos.shortcutIcon">İkon Seçimi:</span></label
+              >
+              <select
+                class="input-field"
+                id="sc-new-icon-select"
+                onchange="previewShortcutIcon(this.value)"
+              >
+                <option value="/static/images/icons/premium-espresso.svg" data-i18n="pos.icons.espresso">Espresso</option>
+                <option value="/static/images/icons/premium-milk.svg" data-i18n="pos.icons.cappuccino">Cappuccino</option>
+                <option value="/static/images/icons/premium-milk.svg" data-i18n="pos.icons.latte">Latte</option>
+                <option value="/static/images/icons/premium-espresso.svg" data-i18n="pos.icons.americano">Americano</option>
+                <option value="/static/images/icons/premium-cold.svg" data-i18n="pos.icons.coldBrew">Cold Brew</option>
+                <option value="/static/images/icons/premium-cold.svg" data-i18n="pos.icons.frappe">Frappe</option>
+                <option value="/static/images/icons/premium-tea.svg" data-i18n="pos.icons.tea">Çay</option>
+                <option value="/static/images/icons/premium-pastry.svg" data-i18n="pos.icons.croissant">Kruasan</option>
+                <option value="/static/images/icons/premium-pastry.svg" data-i18n="pos.icons.dessert">Desert</option>
+                <option value="/static/images/icons/premium-pastry.svg" data-i18n="pos.icons.sandwich">Sendviç</option>
+                <option value="/static/images/icons/premium-cold.svg" data-i18n="pos.icons.juice">Şirə</option>
+                <option value="/static/images/illy-logo.svg" data-i18n="pos.icons.default">Default Illy</option>
+              </select>
+            </div>
+            <img
+              id="sc-new-icon-preview"
+              src="/static/images/icons/premium-espresso.svg"
+              style="
+                width: 44px;
+                height: 44px;
+                border-radius: 20%;
+                object-fit: cover;
+                border: 1px solid var(--border);
+                margin-top: 18px;
+              "
+            />
+            <label
+              class="btn btn-outline btn-sm"
+              style="cursor: pointer; margin-top: 18px"
+            >
+              <span data-i18n="pos.uploadImage">📁 Şəkil Yüklə</span>
+              <input
+                type="file"
+                accept="image/*"
+                style="display: none"
+                onchange="uploadShortcutIcon(this)"
+              />
+            </label>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            onclick="submitAddNewShortcut()"
+            style="width: 100%"
+          >
+            <span data-i18n="pos.shortcutsAdd">+ Qısayol Əlavə Et</span>
+          </button>
+        </div>
+
+        <!-- Current Shortcuts List with Reorder and Delete -->
+        <h4 style="margin-bottom: 10px; font-size: 15px">
+          Mövcud Qısayollar (Sıralama və Silmə)
+        </h4>
+        <div
+          id="sc-current-list"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+          "
+        >
+          <!-- Dynamically populated -->
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-outline"
+          onclick="closeShortcutsManagerModal()"
+          style="width: 100%"
+        >
+          Bağla
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Single Shortcut Modal -->
+    <div
+      class="modal-overlay"
+      id="modal-edit-single-shortcut"
+      style="display: none"
+    >
+      <div class="modal-box" style="max-width: 450px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 14px">
+          Qısayolu Dəyişdir
+        </h2>
+        <input type="hidden" id="edit-sc-id" />
+        <div style="margin-bottom: 12px">
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            >Məhsul:</label
+          >
+          <div
+            id="edit-sc-prod-title"
+            style="font-weight: 700; font-size: 16px; margin-top: 4px"
+          ></div>
+        </div>
+        <div style="margin-bottom: 12px">
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            >Xüsusi Etiket:</label
+          >
+          <input type="text" class="input-field" id="edit-sc-label" />
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+          "
+        >
+          <div style="flex: 1">
+            <label
+              style="
+                font-size: 13px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+              >İkon:</label
+            >
+            <select
+              class="input-field"
+              id="edit-sc-icon-select"
+              onchange="previewEditShortcutIcon(this.value)"
+            >
+              <option value="/static/images/icons/premium-espresso.svg">
+                Espresso
+              </option>
+              <option value="/static/images/icons/premium-milk.svg">
+                Cappuccino
+              </option>
+              <option value="/static/images/icons/premium-milk.svg">Latte</option>
+              <option value="/static/images/icons/premium-espresso.svg">
+                Americano
+              </option>
+              <option value="/static/images/icons/premium-cold.svg">
+                Cold Brew
+              </option>
+              <option value="/static/images/icons/premium-cold.svg">Frappe</option>
+              <option value="/static/images/icons/premium-tea.svg">Çay</option>
+              <option value="/static/images/icons/premium-pastry.svg">
+                Kruasan
+              </option>
+              <option value="/static/images/icons/premium-pastry.svg">Desert</option>
+              <option value="/static/images/icons/premium-pastry.svg">Sendviç</option>
+              <option value="/static/images/icons/premium-cold.svg">Şirə</option>
+              <option value="/static/images/illy-logo.svg">
+                Default Illy
+              </option>
+            </select>
+          </div>
+          <img
+            id="edit-sc-icon-preview"
+            src="/static/images/illy-logo.svg"
+            style="
+              width: 44px;
+              height: 44px;
+              border-radius: 20%;
+              object-fit: cover;
+              border: 1px solid var(--border);
+              margin-top: 18px;
+            "
+          />
+          <label
+            class="btn btn-outline btn-sm"
+            style="cursor: pointer; margin-top: 18px"
+          >
+            📁 Yüklə
+            <input
+              type="file"
+              accept="image/*"
+              style="display: none"
+              onchange="uploadEditShortcutIcon(this)"
+            />
+          </label>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <button
+            type="button"
+            class="btn btn-outline"
+            onclick="closeEditSingleShortcutModal()"
+            style="flex: 1"
+          >
+            İmtina
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            onclick="deleteSingleShortcut()"
+            style="flex: 1"
+          >
+            Sil
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="saveEditSingleShortcut()"
+            style="flex: 1"
+          >
+            Saxla
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Profile Settings Modal -->
+    <div
+      class="modal-overlay"
+      id="modal-profile-settings"
+      style="display: none"
+    >
+      <div class="modal-box" style="max-width: 440px; text-align: left">
+        <h2 class="modal-title" style="margin-bottom: 16px">
+          <span data-i18n="settings.title">Şəxsi Profil Tənzimləmələri</span>
+        </h2>
+        <form onsubmit="submitProfileSettings(event)">
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            data-i18n="settings.avatar.title">Avatar Seçimi:</label
+          >
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              align-items: center;
+              margin-bottom: 14px;
+            "
+          >
+            <select
+              class="input-field"
+              id="profile-avatar-select"
+              onchange="previewProfileAvatar(this.value)"
+              style="flex: 1"
+            >
+              <option value="plain" data-i18n="settings.avatar.plain">Sadə</option>
+              <option value="christmas" data-i18n="settings.avatar.christmas">Noel papağı</option>
+              <option value="halloween" data-i18n="settings.avatar.halloween">Halloween</option>
+              <option value="heart" data-i18n="settings.avatar.heart">Ürək</option>
+              <option value="star" data-i18n="settings.avatar.star">Ulduz</option>
+              <option value="crown" data-i18n="settings.avatar.crown">Tac</option>
+              <option value="coffee" data-i18n="settings.avatar.coffee">Qəhvə</option>
+            </select>
+            <img
+              id="profile-avatar-preview"
+              src="/static/images/avatar-user.svg"
+              style="
+                width: 48px;
+                height: 48px;
+                border-radius: 24%;
+                object-fit: cover;
+                border: 2px solid var(--accent);
+              "
+            />
+          </div>
+
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            data-i18n="settings.currentPassword">Cari Şifrə (Təsdiq üçün vacibdir):</label
+          >
+          <input
+            type="password"
+            class="input-field"
+            id="profile-current-pwd"
+            placeholder="Cari şifrənizi daxil edin" data-i18n-placeholder="settings.currentPasswordPlaceholder"
+            style="margin-bottom: 10px"
+          />
+
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            data-i18n="settings.newPassword">Yeni Şifrə (Yalnız dəyişmək istədikdə):</label
+          >
+          <input
+            type="password"
+            class="input-field"
+            id="profile-new-pwd"
+            placeholder="Yeni şifrə (istəyə görə)" data-i18n-placeholder="settings.newPasswordPlaceholder"
+            style="margin-bottom: 14px"
+          />
+
+          <label
+            style="font-size: 13px; color: var(--text-muted); font-weight: 600"
+            data-i18n="settings.receiptSignature">Çek üçün xüsusi söz (istəyə görə):</label
+          >
+          <input
+            type="text"
+            class="input-field"
+            id="profile-receipt-signature"
+            maxlength="120"
+            placeholder="Məs: Sevgilər, Leyla ☕"
+            style="margin-bottom: 20px"
+          />
+          <label for="language-switcher" data-i18n="settings.language">İnterfeys dili:</label>
+          <select id="language-switcher" class="input-field" style="margin-bottom: 20px">
+            <option value="az">Azərbaycan dili</option>
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+          </select>
+          <label for="theme-switcher" data-i18n="settings.theme">Tema</label>
+          <select id="theme-switcher" class="input-field" style="margin-bottom: 20px" onchange="applyUserTheme(this.value)">
+            <option value="soft-dark" data-i18n="settings.themes.softDark">Soft Dark</option>
+            <option value="light" data-i18n="settings.themes.light">Light</option>
+            <option value="deep-dark" data-i18n="settings.themes.deepDark">Deep Dark</option>
+            <option value="midnight-glass" data-i18n="settings.themes.midnight">Midnight Glass</option>
+            <option value="warm-cream" data-i18n="settings.themes.warmCream">Warm Cream</option>
+            <option value="warm-green" data-i18n="settings.themes.warmGreen">Warm Green</option>
+            <option value="cool-graphite" data-i18n="settings.themes.graphite">Cool Graphite</option>
+          </select>
+          <label for="font-size-switcher" data-i18n="settings.fontSize">Yazı ölçüsü</label>
+          <select id="font-size-switcher" class="input-field" style="margin-bottom: 20px" onchange="applyUserFontSize(this.value)">
+            <option value="small" data-i18n="settings.fontSizes.small">Kiçik</option>
+            <option value="normal" data-i18n="settings.fontSizes.normal">Normal</option>
+            <option value="large" data-i18n="settings.fontSizes.large">Böyük</option>
+          </select>
+
+          <div style="display: flex; gap: 10px">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeProfileSettingsModal()"
+              style="flex: 1"
+            >
+              <span data-i18n="common.close">Bağla</span>
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1">
+              <span data-i18n="common.save">Yadda Saxla</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

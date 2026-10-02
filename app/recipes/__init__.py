@@ -1,0 +1,1 @@
+"""Flexible recipe management package"""

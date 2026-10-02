@@ -1,0 +1,184 @@
+html[data-theme="light"] {
+  --bg-main:#fbfcfe; --surface:#ffffff; --surface-elevated:#ffffff; --surface-soft:#ffffff;
+  --bg-card:#ffffff; --bg-card-hover:#f7f9fc; --border:#d7e0eb; --border-light:#e8eef5; --border-focus:#2563eb;
+  --text-main:#172033; --text-secondary:#526174; --text-muted:#6b7789; --text-white:#fff;
+  --primary:#2563eb; --accent:#7c3aed; --accent-hover:#6d28d9;
+}
+html[data-theme="light"] .pos-cart-sidebar,
+html[data-theme="light"] .cart-footer {
+  background: #ffffff;
+  box-shadow: -10px 0 30px rgba(30, 64, 175, .06);
+}
+html[data-theme="light"] .discount-btn.active,
+html[data-theme="light"] .payment-btn.active,
+html[data-theme="light"] .category-tab.active {
+  background: linear-gradient(135deg, #6d28d9, #2563eb);
+  color: #ffffff;
+}
+html[data-theme="light"] #view-admin .admin-nav-tabs,
+html[data-theme="light"] #view-developer .admin-nav-tabs {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+}
+html[data-theme="light"] #view-admin .admin-nav-tab,
+html[data-theme="light"] #view-developer .admin-nav-tab {
+  color: #435268;
+}
+html[data-theme="light"] #view-admin .admin-nav-tab.active,
+html[data-theme="light"] #view-developer .admin-nav-tab.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+}
+html[data-theme="light"] #view-admin .recommendation-card,
+html[data-theme="light"] #view-developer .recommendation-card {
+  background: #ffffff !important;
+}
+html[data-theme="light"] #view-admin .stock-alert-inline,
+html[data-theme="light"] #view-developer .stock-alert-inline {
+  background: #ffffff;
+  color: #334155;
+}
+
+html[data-theme="light"] #view-admin .card,
+html[data-theme="light"] #view-developer .card,
+html[data-theme="light"] #view-admin .data-table-container,
+html[data-theme="light"] #view-developer .data-table-container,
+html[data-theme="light"] #view-admin .stock-alert-toolbar,
+html[data-theme="light"] #view-developer .stock-alert-toolbar,
+html[data-theme="light"] #view-admin .recipe-help-panel,
+html[data-theme="light"] #view-developer .recipe-help-panel {
+  background: #ffffff !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme="light"] #view-admin .data-table th,
+html[data-theme="light"] #view-developer .data-table th {
+  background: #f8fbff !important;
+}
+
+html[data-theme="light"] #view-admin .recipe-row,
+html[data-theme="light"] #view-developer .recipe-row,
+html[data-theme="light"] #view-admin .catalog-variant-row,
+html[data-theme="light"] #view-developer .catalog-variant-row {
+  background: #fbfdff !important;
+}
+
+html[data-theme="light"] .cart-logo {
+  background: #ffffff;
+  border-color: #cdd9e8;
+}
+
+html[data-theme="light"] .cart-empty-logo {
+  filter: drop-shadow(0 8px 14px rgba(22, 128, 74, .18));
+}
+
+html[data-theme="light"] .profile-card,
+html[data-theme="light"] .profile-card-other,
+html[data-theme="light"] .shortcuts-section,
+html[data-theme="light"] .shortcut-card,
+html[data-theme="light"] .category-tab,
+html[data-theme="light"] .product-card,
+html[data-theme="light"] .pos-cart-sidebar,
+html[data-theme="light"] .cart-item,
+html[data-theme="light"] .cart-qty-btn,
+html[data-theme="light"] .cart-item-qty-box,
+html[data-theme="light"] .data-table-container,
+html[data-theme="light"] .data-table,
+html[data-theme="light"] .data-table th,
+html[data-theme="light"] .data-table td,
+html[data-theme="light"] .modal-box {
+  background: #ffffff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 10px 28px rgba(30, 64, 175, .06);
+}
+
+html[data-theme="light"] .profile-card .profile-name,
+html[data-theme="light"] .profile-card .profile-role-badge,
+html[data-theme="light"] .user-badge-header,
+html[data-theme="light"] .user-badge-header #header-user-name {
+  color: var(--text-main) !important;
+}
+
+html[data-theme="light"] .modal-box .input-field {
+  color: var(--text-main) !important;
+  background: #ffffff !important;
+}
+
+html[data-theme="light"] .modal-box .input-field::placeholder {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .ticket-preview {
+  background: #f8fbff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme="light"] .employee-kpi,
+html[data-theme="light"] .employee-report-card {
+  background: #ffffff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme="light"] .employee-kpi strong,
+html[data-theme="light"] .employee-report-card h3,
+html[data-theme="light"] .employee-profile-line strong,
+html[data-theme="light"] .employee-day-detail strong {
+  color: var(--text-main) !important;
+}
+
+html[data-theme="light"] .employee-profile-line {
+  border-bottom-color: var(--border-light);
+}
+
+html[data-theme="light"] .employee-day-detail {
+  background: #f8fbff;
+  color: var(--text-secondary);
+}
+html[data-theme="light"] #view-admin .stock-alert-inline.critical { color: #b91c1c; }
+html[data-theme="light"] #view-admin .stock-alert-inline.watch { color: #a16207; }
+html[data-theme="light"] #view-admin .stock-alert-inline.healthy { color: #15803d; }
+html[data-theme="light"] #view-admin .badge,
+html[data-theme="light"] #view-developer .badge {
+  text-shadow: none;
+}
+
+html[data-theme="light"] #modal-profile-settings .modal-box,
+html[data-theme="light"] #modal-profile-settings .modal-title {
+  color: var(--text-main);
+}
+
+html[data-theme="light"] #modal-profile-settings label,
+html[data-theme="light"] #modal-profile-settings .form-field > span {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="light"] #modal-profile-settings .input-field {
+  background: #ffffff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+  caret-color: var(--text-main);
+}
+
+html[data-theme="light"] #modal-profile-settings .input-field::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1;
+}
+
+html[data-theme="light"] #modal-profile-settings .input-field:focus {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+html[data-theme="light"] #modal-profile-settings select option {
+  background: #ffffff;
+  color: var(--text-main);
+}
+
+html[data-theme="light"] #modal-profile-settings .btn-outline {
+  background: #ffffff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}

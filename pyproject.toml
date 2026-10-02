@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "illy-coffee-shop"
+version = "1.0.0"
+description = "Local-first specialty coffee shop management system"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "Flask==3.1.2",
+  "PyJWT==2.10.1",
+  "bcrypt==4.3.0",
+  "cryptography==45.0.7",
+  "psutil==7.0.0",
+  "requests==2.32.5",
+  "Pillow==11.3.0",
+  "python-dotenv==1.1.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.1"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

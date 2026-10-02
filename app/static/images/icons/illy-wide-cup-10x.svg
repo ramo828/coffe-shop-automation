@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1280" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Coffee cup</title>
+  <desc id="desc">A wide premium coffee cup with rising steam</desc>
+  <defs>
+    <linearGradient id="cup" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#d99a5b"/>
+      <stop offset="1" stop-color="#8f482b"/>
+    </linearGradient>
+    <linearGradient id="coffee" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5b2a1c"/>
+      <stop offset="1" stop-color="#24120f"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#081426" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <ellipse cx="64" cy="104" rx="45" ry="7" fill="#0b182b" opacity=".34"/>
+  <g filter="url(#shadow)">
+    <path d="M25 49h78v27c0 16-16 25-39 25S25 92 25 76V49Z" fill="url(#cup)" stroke="#f7dfba" stroke-width="2.5"/>
+    <ellipse cx="64" cy="50" rx="39" ry="11" fill="#f8d8a6" stroke="#fff2d8" stroke-width="2.5"/>
+    <ellipse cx="64" cy="50" rx="32" ry="7.5" fill="url(#coffee)"/>
+    <path d="M102 57h8c9 0 14 6 12 14-2 9-10 14-20 14" fill="none" stroke="#f7dfba" stroke-width="5" stroke-linecap="round"/>
+    <path d="M39 73c14 6 36 6 50 0M42 82c13 5 31 5 44 0" fill="none" stroke="#f1bd79" stroke-width="2" opacity=".72" stroke-linecap="round"/>
+  </g>
+  <path d="M45 34c-5-9 7-11 2-21M64 32c-5-10 7-12 2-22M83 34c-5-9 7-11 2-21" fill="none" stroke="#f4d6a5" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,126 @@
+html[data-theme="warm-green"] {
+  --bg-main:#f4faf6;
+  --surface:#ffffff;
+  --surface-elevated:#ffffff;
+  --surface-soft:#f7fcf8;
+  --bg-card:#ffffff;
+  --bg-card-hover:#effaf2;
+  --border:#cfe4d5;
+  --border-light:#e3f0e6;
+  --border-focus:#16804a;
+  --text-main:#153226;
+  --text-secondary:#3f6553;
+  --text-muted:#648173;
+  --text-white:#ffffff;
+  --primary:#18794e;
+  --accent:#0f9f62;
+  --accent-hover:#0b7e4d;
+  --success:#16804a;
+  --warning:#b7791f;
+  --danger:#c2413b;
+}
+
+html[data-theme="warm-green"] .pos-cart-sidebar,
+html[data-theme="warm-green"] .cart-footer {
+  background:#ffffff;
+  box-shadow:-10px 0 30px rgba(22,128,74,.08);
+}
+
+html[data-theme="warm-green"] .discount-btn.active,
+html[data-theme="warm-green"] .payment-btn.active,
+html[data-theme="warm-green"] .category-tab.active,
+html[data-theme="warm-green"] #btn-confirm-order {
+  background:linear-gradient(135deg,#16804a,#0f9f62);
+  color:#ffffff;
+  border-color:#16804a;
+}
+
+html[data-theme="warm-green"] #view-admin .admin-nav-tabs,
+html[data-theme="warm-green"] #view-developer .admin-nav-tabs,
+html[data-theme="warm-green"] #view-admin .card,
+html[data-theme="warm-green"] #view-developer .card,
+html[data-theme="warm-green"] #view-admin .data-table-container,
+html[data-theme="warm-green"] #view-developer .data-table-container,
+html[data-theme="warm-green"] #view-admin .stock-alert-toolbar,
+html[data-theme="warm-green"] #view-developer .stock-alert-toolbar,
+html[data-theme="warm-green"] #view-admin .recipe-help-panel,
+html[data-theme="warm-green"] #view-developer .recipe-help-panel {
+  background:#ffffff !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+}
+
+html[data-theme="warm-green"] #view-admin .data-table th,
+html[data-theme="warm-green"] #view-developer .data-table th {
+  background:#f3faf5 !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+}
+
+html[data-theme="warm-green"] #view-admin .data-table td,
+html[data-theme="warm-green"] #view-developer .data-table td {
+  background:transparent !important;
+  color:var(--text-main) !important;
+  border-color:var(--border-light) !important;
+}
+
+html[data-theme="warm-green"] #view-admin .data-table tr:hover td,
+html[data-theme="warm-green"] #view-developer .data-table tr:hover td {
+  background:#effaf2 !important;
+}
+
+html[data-theme="warm-green"] .profile-card,
+html[data-theme="warm-green"] .profile-card-other,
+html[data-theme="warm-green"] .shortcuts-section,
+html[data-theme="warm-green"] .shortcut-card,
+html[data-theme="warm-green"] .category-tab,
+html[data-theme="warm-green"] .product-card,
+html[data-theme="warm-green"] .cart-item,
+html[data-theme="warm-green"] .modal-box,
+html[data-theme="warm-green"] .data-table-container,
+html[data-theme="warm-green"] .data-table {
+  background:#ffffff !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+  box-shadow:0 10px 28px rgba(22,128,74,.06);
+}
+
+html[data-theme="warm-green"] .modal-box .input-field,
+html[data-theme="warm-green"] #view-admin .input-field,
+html[data-theme="warm-green"] #view-developer .input-field {
+  background:#ffffff !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+}
+
+html[data-theme="warm-green"] .modal-box .input-field::placeholder,
+html[data-theme="warm-green"] #view-admin .input-field::placeholder,
+html[data-theme="warm-green"] #view-developer .input-field::placeholder {
+  color:var(--text-muted) !important;
+  opacity:1;
+}
+
+html[data-theme="warm-green"] .modal-box .btn-outline,
+html[data-theme="warm-green"] #view-admin .btn-outline,
+html[data-theme="warm-green"] #view-developer .btn-outline {
+  background:#ffffff !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+}
+
+html[data-theme="warm-green"] .employee-kpi,
+html[data-theme="warm-green"] .employee-report-card,
+html[data-theme="warm-green"] .ticket-preview {
+  background:#ffffff !important;
+  color:var(--text-main) !important;
+  border-color:var(--border) !important;
+}
+
+html[data-theme="warm-green"] .cart-logo {
+  background:#ffffff;
+  border-color:#b9d8c2;
+}
+
+html[data-theme="warm-green"] .cart-empty-logo {
+  filter: drop-shadow(0 8px 14px rgba(22, 128, 74, .2));
+}

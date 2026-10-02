@@ -1,0 +1,6 @@
+html[data-theme="midnight-glass"] {
+  --bg-main:#090b1e; --surface:rgba(25,29,65,.88); --surface-elevated:rgba(44,50,105,.92); --surface-soft:rgba(16,20,52,.86);
+  --bg-card:rgba(25,29,65,.88); --bg-card-hover:rgba(38,45,91,.94); --border:rgba(151,139,255,.34); --border-light:rgba(151,139,255,.2); --border-focus:#a78bfa;
+  --text-main:#faf9ff; --text-secondary:#d8d4f2; --text-muted:#aaa7cf; --text-white:#fff;
+  --primary:#8b5cf6; --accent:#f0abfc; --accent-hover:#f5d0fe;
+}

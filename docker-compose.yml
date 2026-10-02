@@ -1,0 +1,29 @@
+services:
+  coffee-shop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: illy-coffee-shop:latest
+    restart: unless-stopped
+    ports:
+      - "${COFFEE_PORT:-8000}:8000"
+    environment:
+      COFFEE_ENV: production
+      COFFEE_APP_SECRET: ${COFFEE_APP_SECRET:?Set COFFEE_APP_SECRET in .env}
+      DEV_MASTER_PASSWORD: ${DEV_MASTER_PASSWORD:?Set DEV_MASTER_PASSWORD in .env}
+      COFFEE_SMTP_HOST: ${COFFEE_SMTP_HOST:-}
+      COFFEE_SMTP_PORT: ${COFFEE_SMTP_PORT:-587}
+      COFFEE_SMTP_USERNAME: ${COFFEE_SMTP_USERNAME:-}
+      COFFEE_SMTP_PASSWORD: ${COFFEE_SMTP_PASSWORD:-}
+      COFFEE_SMTP_FROM: ${COFFEE_SMTP_FROM:-}
+    volumes:
+      - coffee_data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys,urllib.request; r=urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3); sys.exit(0 if r.status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  coffee_data:
